@@ -199,42 +199,54 @@
       <label><input type="radio" name="q20" value="5"> 完全照指示操作</label>
     </div>
     <!-- 提交按鈕 -->
-<button id="submitBtn">送出測驗並查看結果</button>
-<div id="result"></div>
+ <button id="submitBtn">送出測驗並查看結果</button>
+    <div id="result"></div>
+  </div>
 
-    <script>
-  document.getElementById('submitBtn').addEventListener('click', function () {
-    const scores = new Array(20).fill(0);
-    for (let i = 1; i <= 20; i++) {
-      const selected = document.querySelector(`input[name="q${i}"]:checked`);
-      if (!selected) {
-        alert(`第 ${i} 題尚未作答`);
-        return;
+ <script>
+    const personalityDescriptions = {
+      '感應牌王（B1）': `你是「感應牌王」，仰賴直覺作戰，擅長察覺場面節奏與微妙變化，下注憑感覺、選局看氛圍，是天生的牌桌感應者。你不屬於公式玩家，反而擅長在混沌中尋找靈感。但若碰上冷盤、陷入連敗，過度憑感覺反而會讓你誤判。建議搭配簡單規則提升穩定性，善用工具進行感知驗證，將有助於勝率提升。`,
+      '反指預言家（B2）': `你是「反指預言家」，擅長從群體錯誤中找到破綻，常在眾人下注時反向進場。你具備強烈懷疑精神，認為越熱的牌越該閃避，是極具反骨的局勢顛覆者。你的下注風格冒險、反市場邏輯，適合短打與轉折點布局。若能結合牌路數據與人性推理，將具備極高破局力。`,
+      '走勢裁決官（B3）': `你是「走勢裁決官」，重視連莊與跳躍、靈感與數據交錯並重。你會觀察每局變化節奏、判斷最佳進退點，是擅長順勢操作的技巧型玩家。你信奉“見好就收”，也敢於重壓長龍，是屬於紀律與直覺兼備的穩健選手。建議進一步強化風控紀律，可避免連輸時的追壓誤區。`,
+      '數據殺局者（B4）': `你是「數據殺局者」，下注前總是先分析牌路、勝率與風險比，是理性至上的計算型博弈者。你重視紀錄、規律與驗證，經常以回測檢驗策略，追求穩定長期收益。若能融入更多動態指標，如補分異動、平台出分時段，你的分析準確率將再度升級。你是最適合AI系統輔助的邏輯玩家。`,
+      '連爆之王（E1）': `你是「連爆之王」，擅長鎖定節奏與情緒高點，一波帶走對手。你喜歡熱局、喜歡連勝，講求場感與賭感融合，是天生的激情操盤手。你的優勢是出手果斷、反應敏銳，但也容易在敗勢時因不服輸而重壓。若能學會在爆發與冷靜間切換節奏，將成為極具威脅力的戰士。`,
+      '機台解碼者（E2）': `你是「機台解碼者」，偏好研究機率規律、補分節奏與動畫細節，是電子機率型玩法的深度玩家。你會觀察畫面變化、分析平台出分邏輯，適合多機台輪流試打、尋找補分異常點。若能善用腳本偵測、平台AI提示，你將能大幅提升命中精準度，成為破解者中的佼佼者。`,
+      '機率駭客（E3）': `你是「機率駭客」，擅長運用統計、建模與策略演算法對抗隨機性，是理工腦博弈代表。你喜歡分析投注紀錄，甚至將下注過程模擬為計算模型。你的優勢是邏輯嚴密、不被情緒左右，但若過度依賴理論，可能錯過直覺帶來的轉機。建議搭配即時系統，形成資料驅動的優勢打法。`,
+      '補分流氓（E4）': `你是「補分流氓」，總能發現冷門時段與平台異常補倉時刻，擅長抓準系統漏洞逆襲反打。你會迴避熱門時間、關注閒時出分率，是屬於專打補倉期與反轉點的技巧型玩家。若能結合多平台資訊與補分規律數據，將有機會在大數據亂流中穩定掠金。`
+    };
+
+    document.getElementById('submitBtn').addEventListener('click', function () {
+      const scores = new Array(20).fill(0);
+      for (let i = 1; i <= 20; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (!selected) {
+          alert(`第 ${i} 題尚未作答`);
+          return;
+        }
+        scores[i - 1] = parseInt(selected.value);
       }
-      scores[i - 1] = parseInt(selected.value);
-    }
 
-    const sum = scores.reduce((a, b) => a + b, 0);
+      const sum = scores.reduce((a, b) => a + b, 0);
 
-    let type = '';
-    if (sum <= 40) type = '感應牌王（B1）';
-    else if (sum <= 60) type = '反指預言家（B2）';
-    else if (sum <= 80) type = '走勢裁決官（B3）';
-    else if (sum <= 100) type = '數據殺局者（B4）';
-    else if (sum <= 110) type = '連爆之王（E1）';
-    else if (sum <= 120) type = '機台解碼者（E2）';
-    else if (sum <= 130) type = '機率駭客（E3）';
-    else type = '補分流氓（E4）';
+      let type = '';
+      if (sum <= 40) type = '感應牌王（B1）';
+      else if (sum <= 60) type = '反指預言家（B2）';
+      else if (sum <= 80) type = '走勢裁決官（B3）';
+      else if (sum <= 100) type = '數據殺局者（B4）';
+      else if (sum <= 110) type = '連爆之王（E1）';
+      else if (sum <= 120) type = '機台解碼者（E2）';
+      else if (sum <= 130) type = '機率駭客（E3）';
+      else type = '補分流氓（E4）';
 
-    const resultBox = document.getElementById('result');
-    resultBox.style.display = 'block';
-    resultBox.innerHTML = `
-      <h3>測驗結果：${type}</h3>
-      <p>你的總分為 ${sum} 分，顯示你在下注時的風格屬於「${type}」。</p>
-      <p><a href="https://reurl.cc/M3lAr4" target="_blank" style="color:#00ffe1;text-decoration:underline;">點我立即體驗專屬AI預測系統 →</a></p>
-    `;
-  });
-</script>
-
+      const resultBox = document.getElementById('result');
+      resultBox.style.display = 'block';
+      resultBox.innerHTML = `
+        <h3>測驗結果：${type}</h3>
+        <p>你的總分為 ${sum} 分，顯示你在下注時的風格屬於「${type}」。</p>
+        <p>${personalityDescriptions[type]}</p>
+        <p><a href="https://reurl.cc/M3lAr4" target="_blank" style="color:#00ffe1;text-decoration:underline;">點我立即體驗專屬AI預測系統 →</a></p>
+      `;
+    });
+  </script>
 </body>
 </html>
