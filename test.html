@@ -6,40 +6,18 @@
   <title>開始測驗｜博弈人格測驗</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Noto Sans TC', sans-serif;
-      background-color: #121212;
-      color: #fff;
-      padding: 20px;
-    }
-    .question {
-      margin-bottom: 20px;
-    }
-    .question h2 {
-      font-size: 1.2em;
-      color: #ffd700;
-    }
-    .option {
-      margin: 8px 0;
-    }
-    .option input {
-      margin-right: 10px;
-    }
+    body { font-family: 'Noto Sans TC', sans-serif; background-color: #121212; color: #fff; padding: 20px; }
+    .question { margin-bottom: 20px; }
+    .question h2 { font-size: 1.2em; color: #ffd700; }
+    .option { margin: 8px 0; }
+    .option input { margin-right: 10px; }
     #nextBtn, #submitBtn {
-      margin-top: 30px;
-      padding: 10px 20px;
-      font-size: 1em;
-      background-color: #ffd700;
-      color: #000;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
+      margin-top: 30px; padding: 10px 20px; font-size: 1em;
+      background-color: #ffd700; color: #000; border: none;
+      border-radius: 6px; cursor: pointer;
     }
     #resultLink {
-      display: none;
-      margin-top: 30px;
-      color: #ffd700;
-      font-size: 1.1em;
+      display: none; margin-top: 30px; color: #ffd700; font-size: 1.1em;
     }
   </style>
 </head>
@@ -49,13 +27,9 @@
   <button id="nextBtn" onclick="nextQuestion()">下一題</button>
   <button id="submitBtn" onclick="submitQuiz()" style="display:none;">看結果</button>
   <div id="resultLink"></div>
-
   <script>
-    const questions = [...Array(50)].map((_, i) => ({ text: `第 ${i+1} 題模擬題目內容`, e: i % 2, b: (i + 1) % 2 }));
-
-    let current = 0;
-    let eScore = 0;
-    let bScore = 0;
+    const questions = Array.from({ length: 50 }, (_, i) => ({ text: '第 ' + (i+1) + ' 題模擬題目內容', e: i % 2, b: (i + 1) % 2 }));
+    let current = 0, eScore = 0, bScore = 0;
 
     function renderQuestion() {
       const q = questions[current];
@@ -69,10 +43,7 @@
 
     function nextQuestion() {
       const selected = document.querySelector(\`input[name=q\${current}]:checked\`);
-      if (!selected) {
-        alert('請選擇一個答案');
-        return;
-      }
+      if (!selected) { alert('請選擇一個答案'); return; }
       const val = parseInt(selected.value);
       eScore += questions[current].e * val;
       bScore += questions[current].b * val;
@@ -86,10 +57,9 @@
     }
 
     function submitQuiz() {
-      let result;
       const total = eScore + bScore;
       const eRatio = eScore / total;
-
+      let result = '';
       if (eRatio >= 0.75) result = '連爆之王';
       else if (eRatio >= 0.55) result = '機台解碼者';
       else if (eRatio >= 0.40) result = '機率駭客';
@@ -99,12 +69,11 @@
       else if (eRatio > 0) result = '走勢裁決官';
       else result = '數據殺局者';
 
-      document.getElementById('quiz').innerHTML = \`<h2>你的結果是：\${result}</h2>\`;
+      document.getElementById('quiz').innerHTML = `<h2>你的結果是：${result}</h2>`;
       document.getElementById('submitBtn').style.display = 'none';
       document.getElementById('resultLink').style.display = 'block';
-      document.getElementById('resultLink').innerHTML = \`👉 <a href='https://lin.ee/T6dl4Dj' target='_blank'>加入官方 LINE 領取對照表</a>\`;
+      document.getElementById('resultLink').innerHTML = `👉 <a href='https://lin.ee/T6dl4Dj' target='_blank'>加入官方 LINE 領取對照表</a>`;
     }
-
     renderQuestion();
   </script>
 </body>
