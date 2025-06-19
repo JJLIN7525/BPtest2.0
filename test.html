@@ -6,18 +6,40 @@
   <title>開始測驗｜博弈人格測驗</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Noto Sans TC', sans-serif; background-color: #121212; color: #fff; padding: 20px; }
-    .question { margin-bottom: 20px; }
-    .question h2 { font-size: 1.2em; color: #ffd700; }
-    .option { margin: 8px 0; }
-    .option input { margin-right: 10px; }
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #121212;
+      color: #fff;
+      padding: 20px;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .question h2 {
+      font-size: 1.2em;
+      color: #ffd700;
+    }
+    .option {
+      margin: 8px 0;
+    }
+    .option input {
+      margin-right: 10px;
+    }
     #nextBtn, #submitBtn {
-      margin-top: 30px; padding: 10px 20px; font-size: 1em;
-      background-color: #ffd700; color: #000; border: none;
-      border-radius: 6px; cursor: pointer;
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 1em;
+      background-color: #ffd700;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
     }
     #resultLink {
-      display: none; margin-top: 30px; color: #ffd700; font-size: 1.1em;
+      display: none;
+      margin-top: 30px;
+      color: #ffd700;
+      font-size: 1.1em;
     }
   </style>
 </head>
@@ -27,23 +49,84 @@
   <button id="nextBtn" onclick="nextQuestion()">下一題</button>
   <button id="submitBtn" onclick="submitQuiz()" style="display:none;">看結果</button>
   <div id="resultLink"></div>
+
   <script>
-    const questions = Array.from({ length: 50 }, (_, i) => ({ text: '第 ' + (i+1) + ' 題模擬題目內容', e: i % 2, b: (i + 1) % 2 }));
-    let current = 0, eScore = 0, bScore = 0;
+    const questions = [
+      { text: '下注時你更在意哪個指標？', e: 1, b: 0 },
+      { text: '你會在連輸後加倍加碼嗎？', e: 1, b: 0 },
+      { text: '你曾經記錄過自己過去的投注走勢嗎？', e: 0, b: 1 },
+      { text: '你喜歡依賴第六感選邊下注嗎？', e: 0, b: 1 },
+      { text: '你會嘗試破解遊戲規則來提升勝率嗎？', e: 1, b: 0 },
+      { text: '你曾因情緒化下注導致損失？', e: 0, b: 1 },
+      { text: '你相信「補機」或「補分」這件事嗎？', e: 1, b: 0 },
+      { text: '你有自己的一套判斷「長龍」的方法嗎？', e: 0, b: 1 },
+      { text: '你習慣使用倍押、馬丁等策略嗎？', e: 1, b: 0 },
+      { text: '你會在下注前查看歷史開局記錄嗎？', e: 0, b: 1 },
+      { text: '你覺得「機率只存在過去」這句話合理嗎？', e: 0, b: 1 },
+      { text: '你會因為連贏而選擇繼續壓同邊？', e: 1, b: 0 },
+      { text: '你曾經想過寫程式輔助下注嗎？', e: 1, b: 0 },
+      { text: '你常觀察對戰區間的變化做判斷嗎？', e: 0, b: 1 },
+      { text: '你曾為了一口氣翻本連壓數把？', e: 1, b: 0 },
+      { text: '你看得懂賠率與盤口的細節差異？', e: 0, b: 1 },
+      { text: '你偏好快速刺激的下注節奏？', e: 1, b: 0 },
+      { text: '你常研究他人的下注走勢來做推演？', e: 0, b: 1 },
+      { text: '你有過設定停損卻又違規繼續玩的經驗？', e: 1, b: 0 },
+      { text: '你會用表格、紀錄器整理自己的操作嗎？', e: 0, b: 1 },
+      { text: '你會感應哪邊「今天特別旺」？', e: 1, b: 0 },
+      { text: '你對牌路變化有敏銳判斷力嗎？', e: 0, b: 1 },
+      { text: '你覺得贏錢靠的是節奏不是運氣？', e: 1, b: 0 },
+      { text: '你曾經設計過自己的下注策略表嗎？', e: 0, b: 1 },
+      { text: '你在操作中容易被情緒牽著走？', e: 1, b: 0 },
+      { text: '你認為紀律比靈感更重要？', e: 0, b: 1 },
+      { text: '你喜歡觀察彩金或爆分時段？', e: 1, b: 0 },
+      { text: '你有過把輸錢原因分類分析的經驗？', e: 0, b: 1 },
+      { text: '你喜歡根據感覺切換下注方式？', e: 1, b: 0 },
+      { text: '你會記住每次錯判的關鍵點？', e: 0, b: 1 },
+      { text: '你常會有「這次該中了吧」的直覺？', e: 1, b: 0 },
+      { text: '你覺得資料比感覺更可信？', e: 0, b: 1 },
+      { text: '你在下注前會先算期望值嗎？', e: 0, b: 1 },
+      { text: '你喜歡重壓幾注翻盤的刺激感？', e: 1, b: 0 },
+      { text: '你常做全盤模擬再下手？', e: 0, b: 1 },
+      { text: '你有過一晚壓到凌晨還不想停？', e: 1, b: 0 },
+      { text: '你曾為了壓出一局做長時間觀察？', e: 0, b: 1 },
+      { text: '你相信押對節奏比次數重要？', e: 1, b: 0 },
+      { text: '你有用 AI 或程式幫你判斷下注嗎？', e: 0, b: 1 },
+      { text: '你覺得下注像是一場心智博弈？', e: 1, b: 0 },
+      { text: '你能快速判斷各種走勢類型？', e: 0, b: 1 },
+      { text: '你會用影片分析、紀錄對局嗎？', e: 0, b: 1 },
+      { text: '你覺得有一套通則可以應付所有場子？', e: 1, b: 0 },
+      { text: '你玩百家的次數超過500場以上？', e: 0, b: 1 },
+      { text: '你操作電子機台經驗超過100台？', e: 1, b: 0 },
+      { text: '你認為場感是無法被模擬的？', e: 1, b: 0 },
+      { text: '你會分析哪類玩家在哪類桌表表現佳？', e: 0, b: 1 },
+      { text: '你相信自己是贏家的潛力股？', e: 1, b: 0 },
+      { text: '你曾幫朋友整理下注邏輯與思路？', e: 0, b: 1 }
+    ];
+
+    let current = 0;
+    let eScore = 0;
+    let bScore = 0;
 
     function renderQuestion() {
       const q = questions[current];
       document.getElementById('quiz').innerHTML = `
         <div class="question">
           <h2>第 ${current + 1} 題：${q.text}</h2>
-          <div class="option"><label><input type="radio" name="q${current}" value="1"> 是</label></div>
-          <div class="option"><label><input type="radio" name="q${current}" value="0"> 否</label></div>
+          <div class="option">
+            <label><input type="radio" name="q${current}" value="1"> 是</label>
+          </div>
+          <div class="option">
+            <label><input type="radio" name="q${current}" value="0"> 否</label>
+          </div>
         </div>`;
     }
 
     function nextQuestion() {
-      const selected = document.querySelector(\`input[name=q\${current}]:checked\`);
-      if (!selected) { alert('請選擇一個答案'); return; }
+      const selected = document.querySelector(`input[name=q${current}]:checked`);
+      if (!selected) {
+        alert('請選擇一個答案');
+        return;
+      }
       const val = parseInt(selected.value);
       eScore += questions[current].e * val;
       bScore += questions[current].b * val;
@@ -57,9 +140,10 @@
     }
 
     function submitQuiz() {
+      let result;
       const total = eScore + bScore;
       const eRatio = eScore / total;
-      let result = '';
+
       if (eRatio >= 0.75) result = '連爆之王';
       else if (eRatio >= 0.55) result = '機台解碼者';
       else if (eRatio >= 0.40) result = '機率駭客';
@@ -74,6 +158,7 @@
       document.getElementById('resultLink').style.display = 'block';
       document.getElementById('resultLink').innerHTML = `👉 <a href='https://lin.ee/T6dl4Dj' target='_blank'>加入官方 LINE 領取對照表</a>`;
     }
+
     renderQuestion();
   </script>
 </body>
