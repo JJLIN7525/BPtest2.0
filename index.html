@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -97,40 +96,5 @@
     <button id="submitBtn" onclick="submitQuiz()">送出答案</button>
     <div id="resultLink"></div>
   </div>
-
-  <script>
-    const questions = [...Array(32)].map((_, i) => ({ text: `第 ${i + 1} 題範例：這是測驗題目內容？` }));
-    const personas = [{ name: "感應牌王 IMLC", percent: "12.5%", desc: "這類玩家重視直覺與場感...", advice: "掌握自己最佳狀態..." }];
-
-    const form = document.getElementById("quizForm");
-    questions.forEach((q, i) => {
-      const block = document.createElement("div");
-      block.className = "question";
-      block.innerHTML = `<h2>${q.text}</h2>
-        <div class="scale">
-          <label>非常符合<br><input type="radio" name="q${i}" value="5"></label>
-          <label>符合<br><input type="radio" name="q${i}" value="4"></label>
-          <label>普通<br><input type="radio" name="q${i}" value="3"></label>
-          <label>不太符合<br><input type="radio" name="q${i}" value="2"></label>
-          <label>完全不符<br><input type="radio" name="q${i}" value="1"></label>
-        </div>`;
-      form.appendChild(block);
-    });
-
-    function submitQuiz() {
-      const total = questions.length;
-      let valid = true;
-      for (let i = 0; i < total; i++) {
-        if (!document.querySelector(`input[name='q${i}']:checked`)) valid = false;
-      }
-      if (!valid) {
-        alert("請完成所有題目");
-        return;
-      }
-      const random = Math.floor(Math.random() * personas.length);
-      const selected = personas[random];
-      document.getElementById("resultLink").innerHTML = `✅ 測驗完成！<br><br><h2 style='color:#ffd700;'>${selected.name}</h2><p>佔全體比例：${selected.percent}</p><p>${selected.desc}</p><p>🎯 ${selected.advice}</p>`;
-    }
-  </script>
 </body>
 </html>
