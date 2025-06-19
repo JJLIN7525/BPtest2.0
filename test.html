@@ -240,12 +240,24 @@
 
       const resultBox = document.getElementById('result');
       resultBox.style.display = 'block';
-      resultBox.innerHTML = `
-        <h3>測驗結果：${type}</h3>
-        <p>你的總分為 ${sum} 分，顯示你在下注時的風格屬於「${type}」。</p>
-        <p>${personalityDescriptions[type]}</p>
-        <p><a href="https://reurl.cc/M3lAr4" target="_blank" style="color:#00ffe1;text-decoration:underline;">點我立即體驗專屬AI預測系統 →</a></p>
-      `;
+      const imageMap = {
+  '感應牌王（B1）': 'images/b1.png',
+  '反指預言家（B2）': 'images/b2.png',
+  '走勢裁決官（B3）': 'images/b3.png',
+  '數據殺局者（B4）': 'images/b4.png',
+  '連爆之王（E1）': 'images/e1.png',
+  '機台解碼者（E2）': 'images/e2.png',
+  '機率駭客（E3）': 'images/e3.png',
+  '補分流氓（E4）': 'images/e4.png'
+};
+
+resultBox.innerHTML = `
+  <h3>測驗結果：${type}</h3>
+  <img src="${imageMap[type]}" alt="${type}" style="max-width:200px; margin-bottom:15px; border-radius:12px;" />
+  <p>你的總分為 ${sum} 分，顯示你在下注時的風格屬於「${type}」。</p>
+  <p>${personalityDescriptions[type]}</p>
+  <p><a href="https://reurl.cc/M3lAr4" target="_blank" style="color:#00ffe1;text-decoration:underline;">點我立即體驗專屬AI預測系統 →</a></p>
+`;
     });
   </script>
 </body>
