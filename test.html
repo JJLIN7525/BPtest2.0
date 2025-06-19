@@ -1,2 +1,162 @@
-<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><title>Test</title></head>
-<body><h1>測驗範例頁面</h1></body></html>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>博弈人格測驗</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: url('https://images.unsplash.com/photo-1602524812126-7fcf6fc41a9f') center/cover no-repeat fixed;
+      background-color: #0f0f0f;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background-color: rgba(0, 0, 0, 0.75);
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.08);
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 40px;
+      color: #00ffe1;
+    }
+    .question {
+      margin-bottom: 40px;
+    }
+    .question h2 {
+      font-size: 1.1em;
+      color: #ffd700;
+      margin-bottom: 10px;
+    }
+    .scale {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      padding: 0 10px;
+    }
+    .scale label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 0.8em;
+      color: #ccc;
+    }
+    .scale input[type="radio"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      margin: 6px;
+      border-radius: 50%;
+      background-color: #222;
+      border: 2px solid #555;
+    }
+    .scale input[type="radio"]:checked {
+      background-color: #00ffe1;
+      border-color: #00ffe1;
+    }
+    #submitBtn {
+      display: block;
+      margin: 40px auto 20px;
+      padding: 12px 28px;
+      font-size: 1.1em;
+      background-color: #00ffe1;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #submitBtn:hover {
+      background-color: #00cbb7;
+    }
+    #resultLink {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1.1em;
+      color: #00ffe1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>博弈人格測驗</h1>
+    <form id="quizForm"></form>
+    <button id="submitBtn" onclick="submitQuiz()">送出答案</button>
+    <div id="resultLink"></div>
+  </div>
+
+  <script>
+    const questions = [
+  { text: "你會習慣記錄下注結果嗎？" },
+  { text: "你偏好靠感覺選邊，而非看數據？" },
+  { text: "你會計算投注的賠率價值？" },
+  { text: "你會根據情緒調整下注方式？" },
+  { text: "你會依照每場下注紀律設定停損嗎？",
+  { text: "你會觀察電子機台的出分節奏嗎？" },
+  { text: "你在輸錢後會想要加倍贏回來？" },
+  { text: "你會分析百家樂的路紙和走勢？" },
+  { text: "你覺得運氣比技術重要？" },
+  { text: "你會根據盤口變化調整下注策略？" },
+  { text: "你能快速判斷賠率是否合理？" },
+  { text: "你有自己固定的投注公式嗎？" },
+  { text: "你會因為贏錢而興奮失控？" },
+  { text: "你相信長龍比跳龍更穩？" },
+  { text: "你喜歡研究統計來輔助下注？" },
+  { text: "你覺得機率是可以被操控的？" },
+  { text: "你會依據『補分時段』進場？" },
+  { text: "你會避開人多的機台或桌次？" },
+  { text: "你會在夜深人靜時更容易贏？" },
+  { text: "你相信百家樂有『節奏』存在？" },
+  { text: "你會調整心態後再進場？" },
+  { text: "你會記錄莊閒勝負比例？" },
+  { text: "你會同時打開多桌觀察比對？" },
+  { text: "你認為系統能準確預測走勢？" },
+  { text: "你喜歡照感覺一把梭？" },
+  { text: "你相信直覺比數據準？" },
+  { text: "你會依據對戰紀錄判斷下注？" },
+  { text: "你有固定贏錢就收的規則？" },
+  { text: "你能忍住連贏後繼續觀望？" },
+  { text: "你會為了翻本冒險大注？" },
+  { text: "你對於使用AI輔助分析下注有興趣？" },
+  { text: "若有一套AI系統可提升勝率，你願意試用看看嗎？" }
+];
+
+    const form = document.getElementById("quizForm");
+    questions.forEach((q, i) => {
+      const block = document.createElement("div");
+      block.className = "question";
+      block.innerHTML = `<h2>第 ${i + 1} 題：${q.text}</h2>
+        <div class="scale">
+          <label>非常符合<br><input type="radio" name="q${i}" value="5"></label>
+          <label>符合<br><input type="radio" name="q${i}" value="4"></label>
+          <label>普通<br><input type="radio" name="q${i}" value="3"></label>
+          <label>不太符合<br><input type="radio" name="q${i}" value="2"></label>
+          <label>完全不符<br><input type="radio" name="q${i}" value="1"></label>
+        </div>`;
+      form.appendChild(block);
+    });
+
+    function submitQuiz() {
+      const total = questions.length;
+      let valid = true;
+      for (let i = 0; i < total; i++) {
+        const checked = document.querySelector(`input[name='q${i}']:checked`);
+        if (!checked) valid = false;
+      }
+      if (!valid) {
+        alert("請完成所有題目");
+        return;
+      }
+      document.getElementById("resultLink").innerHTML = `✅ 測驗完成！<br><br><a href='https://lin.ee/T6dl4Dj' target='_blank'>👉 點我加入官方 LINE，領取分析對照表</a>`;
+    }
+  </script>
+</body>
+</html>
