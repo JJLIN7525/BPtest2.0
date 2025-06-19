@@ -198,5 +198,43 @@
       <label><input type="radio" name="q20" value="4"> 多半照做</label>
       <label><input type="radio" name="q20" value="5"> 完全照指示操作</label>
     </div>
+    <!-- 提交按鈕 -->
+<button id="submitBtn">送出測驗並查看結果</button>
+<div id="result"></div>
+
+    <script>
+  document.getElementById('submitBtn').addEventListener('click', function () {
+    const scores = new Array(20).fill(0);
+    for (let i = 1; i <= 20; i++) {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      if (!selected) {
+        alert(`第 ${i} 題尚未作答`);
+        return;
+      }
+      scores[i - 1] = parseInt(selected.value);
+    }
+
+    const sum = scores.reduce((a, b) => a + b, 0);
+
+    let type = '';
+    if (sum <= 40) type = '感應牌王（B1）';
+    else if (sum <= 60) type = '反指預言家（B2）';
+    else if (sum <= 80) type = '走勢裁決官（B3）';
+    else if (sum <= 100) type = '數據殺局者（B4）';
+    else if (sum <= 110) type = '連爆之王（E1）';
+    else if (sum <= 120) type = '機台解碼者（E2）';
+    else if (sum <= 130) type = '機率駭客（E3）';
+    else type = '補分流氓（E4）';
+
+    const resultBox = document.getElementById('result');
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `
+      <h3>測驗結果：${type}</h3>
+      <p>你的總分為 ${sum} 分，顯示你在下注時的風格屬於「${type}」。</p>
+      <p><a href="https://reurl.cc/M3lAr4" target="_blank" style="color:#00ffe1;text-decoration:underline;">點我立即體驗專屬AI預測系統 →</a></p>
+    `;
+  });
+</script>
+
 </body>
 </html>
