@@ -1,13 +1,202 @@
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>博弈人格測驗</title>
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #0f0f0f;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    h2 {
+      color: #00ffe1;
+    }
+    .question-block {
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #1c1c1c;
+      border-radius: 10px;
+    }
+    label {
+      display: block;
+      margin: 5px 0;
+    }
+  </style>
 </head>
 <body>
-  <h1>這是測驗頁面 Test.html</h1>
-  <p>此處將放置20題測驗與邏輯計算，請補上完整內容後使用。</p>
+  <div class="container">
+    <h2>精選博弈人格測驗（共20題）</h2>
+
+    <!-- Q1~Q10 保持不變，省略重複內容 -->
+
+    <div class="question-block">
+      <p>Q1. 你下注時會先評估勝率還是感覺？</p>
+      <label><input type="radio" name="q1" value="1"> 完全憑感覺</label>
+      <label><input type="radio" name="q1" value="2"> 大多憑感覺</label>
+      <label><input type="radio" name="q1" value="3"> 各半</label>
+      <label><input type="radio" name="q1" value="4"> 大多看勝率</label>
+      <label><input type="radio" name="q1" value="5"> 完全看數據</label>
+    </div>
+    <div class="question-block">
+      <p>Q2. 你會根據輸贏調整下注金額嗎？</p>
+      <label><input type="radio" name="q2" value="1"> 完全不調整</label>
+      <label><input type="radio" name="q2" value="2"> 偶爾調整</label>
+      <label><input type="radio" name="q2" value="3"> 看情況</label>
+      <label><input type="radio" name="q2" value="4"> 常常調整</label>
+      <label><input type="radio" name="q2" value="5"> 每局都變</label>
+    </div>
+    <div class="question-block">
+      <p>Q3. 你會不會在連勝後特別小心下一局？</p>
+      <label><input type="radio" name="q3" value="1"> 完全不會</label>
+      <label><input type="radio" name="q3" value="2"> 不太會</label>
+      <label><input type="radio" name="q3" value="3"> 看情況</label>
+      <label><input type="radio" name="q3" value="4"> 會有點謹慎</label>
+      <label><input type="radio" name="q3" value="5"> 一定會收手觀察</label>
+    </div>
+    <div class="question-block">
+      <p>Q4. 你下注的時候會有既定策略嗎？</p>
+      <label><input type="radio" name="q4" value="1"> 完全沒策略</label>
+      <label><input type="radio" name="q4" value="2"> 偶爾試試</label>
+      <label><input type="radio" name="q4" value="3"> 看心情</label>
+      <label><input type="radio" name="q4" value="4"> 有部分策略</label>
+      <label><input type="radio" name="q4" value="5"> 有完整系統邏輯</label>
+    </div>
+    <div class="question-block">
+      <p>Q5. 面對連敗時你會怎麼做？</p>
+      <label><input type="radio" name="q5" value="1"> 繼續同方向壓</label>
+      <label><input type="radio" name="q5" value="2"> 放棄遊戲</label>
+      <label><input type="radio" name="q5" value="3"> 暫停觀望</label>
+      <label><input type="radio" name="q5" value="4"> 壓反方向</label>
+      <label><input type="radio" name="q5" value="5"> 轉為測試打法</label>
+    </div>
+    <div class="question-block">
+      <p>Q6. 你是否曾經為了贏回損失而翻倍下注？</p>
+      <label><input type="radio" name="q6" value="1"> 從不</label>
+      <label><input type="radio" name="q6" value="2"> 很少</label>
+      <label><input type="radio" name="q6" value="3"> 偶爾</label>
+      <label><input type="radio" name="q6" value="4"> 常常</label>
+      <label><input type="radio" name="q6" value="5"> 幾乎每次</label>
+    </div>
+    <div class="question-block">
+      <p>Q7. 你有使用過 AI 預測系統來輔助下注嗎？</p>
+      <label><input type="radio" name="q7" value="1"> 從不</label>
+      <label><input type="radio" name="q7" value="2"> 試過但不信</label>
+      <label><input type="radio" name="q7" value="3"> 偶爾參考</label>
+      <label><input type="radio" name="q7" value="4"> 常常搭配</label>
+      <label><input type="radio" name="q7" value="5"> 非常依賴</label>
+    </div>
+    <div class="question-block">
+      <p>Q8. 你會為了證明自己對而持續押注嗎？</p>
+      <label><input type="radio" name="q8" value="1"> 完全不會</label>
+      <label><input type="radio" name="q8" value="2"> 偶爾</label>
+      <label><input type="radio" name="q8" value="3"> 看情況</label>
+      <label><input type="radio" name="q8" value="4"> 常常</label>
+      <label><input type="radio" name="q8" value="5"> 非常常見</label>
+    </div>
+    <div class="question-block">
+      <p>Q9. 你是否習慣依據「走勢」來判斷下注？</p>
+      <label><input type="radio" name="q9" value="1"> 完全不看</label>
+      <label><input type="radio" name="q9" value="2"> 偶爾參考</label>
+      <label><input type="radio" name="q9" value="3"> 看一半</label>
+      <label><input type="radio" name="q9" value="4"> 常常觀察</label>
+      <label><input type="radio" name="q9" value="5"> 完全依賴</label>
+    </div>
+    <div class="question-block">
+      <p>Q10. 你下注時是否容易受到朋友或他人影響？</p>
+      <label><input type="radio" name="q10" value="1"> 完全不會</label>
+      <label><input type="radio" name="q10" value="2"> 偶爾</label>
+      <label><input type="radio" name="q10" value="3"> 看情況</label>
+      <label><input type="radio" name="q10" value="4"> 比較會</label>
+      <label><input type="radio" name="q10" value="5"> 非常容易受影響</label>
+    </div>
+    <div class="question-block">
+      <p>Q11. 你是否會記錄自己過往的下注紀錄？</p>
+      <label><input type="radio" name="q11" value="1"> 從不紀錄</label>
+      <label><input type="radio" name="q11" value="2"> 很少紀錄</label>
+      <label><input type="radio" name="q11" value="3"> 偶爾記錄</label>
+      <label><input type="radio" name="q11" value="4"> 有系統記錄</label>
+      <label><input type="radio" name="q11" value="5"> 每局都記錄</label>
+    </div>
+    <div class="question-block">
+      <p>Q12. 你是否相信補分時機的存在？</p>
+      <label><input type="radio" name="q12" value="1"> 完全不信</label>
+      <label><input type="radio" name="q12" value="2"> 偶爾考慮</label>
+      <label><input type="radio" name="q12" value="3"> 一半一半</label>
+      <label><input type="radio" name="q12" value="4"> 偏向相信</label>
+      <label><input type="radio" name="q12" value="5"> 非常信仰</label>
+    </div>
+    <div class="question-block">
+      <p>Q13. 你是否會嘗試解讀機率與機台行為？</p>
+      <label><input type="radio" name="q13" value="1"> 完全不懂</label>
+      <label><input type="radio" name="q13" value="2"> 不太在意</label>
+      <label><input type="radio" name="q13" value="3"> 看情況</label>
+      <label><input type="radio" name="q13" value="4"> 有時研究</label>
+      <label><input type="radio" name="q13" value="5"> 深度研究</label>
+    </div>
+    <div class="question-block">
+      <p>Q14. 你對預測型工具（如AI預測系統）的信任程度？</p>
+      <label><input type="radio" name="q14" value="1"> 完全不信</label>
+      <label><input type="radio" name="q14" value="2"> 偶爾看看</label>
+      <label><input type="radio" name="q14" value="3"> 一半一半</label>
+      <label><input type="radio" name="q14" value="4"> 通常依賴</label>
+      <label><input type="radio" name="q14" value="5"> 完全依靠</label>
+    </div>
+    <div class="question-block">
+      <p>Q15. 你會不會為了「贏一次大局」而承擔風險？</p>
+      <label><input type="radio" name="q15" value="1"> 從不</label>
+      <label><input type="radio" name="q15" value="2"> 很少</label>
+      <label><input type="radio" name="q15" value="3"> 視情況</label>
+      <label><input type="radio" name="q15" value="4"> 常常</label>
+      <label><input type="radio" name="q15" value="5"> 習慣壓重注</label>
+    </div>
+    <div class="question-block">
+      <p>Q16. 你是否會根據不同平台調整策略？</p>
+      <label><input type="radio" name="q16" value="1"> 完全不會</label>
+      <label><input type="radio" name="q16" value="2"> 偶爾</label>
+      <label><input type="radio" name="q16" value="3"> 視情況</label>
+      <label><input type="radio" name="q16" value="4"> 常常調整</label>
+      <label><input type="radio" name="q16" value="5"> 每次都根據平台微調</label>
+    </div>
+    <div class="question-block">
+      <p>Q17. 當你連輸時，你會怎麼做？</p>
+      <label><input type="radio" name="q17" value="1"> 一直重壓</label>
+      <label><input type="radio" name="q17" value="2"> 放棄遊戲</label>
+      <label><input type="radio" name="q17" value="3"> 減少金額</label>
+      <label><input type="radio" name="q17" value="4"> 暫停觀察</label>
+      <label><input type="radio" name="q17" value="5"> 換玩法重啟</label>
+    </div>
+    <div class="question-block">
+      <p>Q18. 你會不會想把自己的打法教給朋友？</p>
+      <label><input type="radio" name="q18" value="1"> 完全不會</label>
+      <label><input type="radio" name="q18" value="2"> 看對象</label>
+      <label><input type="radio" name="q18" value="3"> 偶爾分享</label>
+      <label><input type="radio" name="q18" value="4"> 常分享</label>
+      <label><input type="radio" name="q18" value="5"> 喜歡當指導</label>
+    </div>
+    <div class="question-block">
+      <p>Q19. 你是否相信AI系統能夠提升勝率？</p>
+      <label><input type="radio" name="q19" value="1"> 完全不信</label>
+      <label><input type="radio" name="q19" value="2"> 有點懷疑</label>
+      <label><input type="radio" name="q19" value="3"> 一半一半</label>
+      <label><input type="radio" name="q19" value="4"> 還算相信</label>
+      <label><input type="radio" name="q19" value="5"> 非常相信</label>
+    </div>
+    <div class="question-block">
+      <p>Q20. 如果有免費AI系統可以幫你預測下一局，你會？</p>
+      <label><input type="radio" name="q20" value="1"> 完全不想用</label>
+      <label><input type="radio" name="q20" value="2"> 可能會試</label>
+      <label><input type="radio" name="q20" value="3"> 用來參考</label>
+      <label><input type="radio" name="q20" value="4"> 多半照做</label>
+      <label><input type="radio" name="q20" value="5"> 完全照指示操作</label>
+    </div>
 </body>
 </html>
