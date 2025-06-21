@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>測驗結果</title>
   <style>
     body {
@@ -56,8 +56,8 @@
   <h1>測驗結果代碼：<span id="code">讀取中...</span></h1>
 
   <div class="img-box">
-    <img id="img_male" src="" alt="男性形象圖">
-    <img id="img_female" src="" alt="女性形象圖">
+    <img id="img_1" src="" alt="形象圖1">
+    <img id="img_2" src="" alt="形象圖2">
   </div>
 
   <div class="desc-box" id="descBox">載入中...</div>
@@ -65,30 +65,26 @@
   <div class="footer">© 2025 博弈人格測驗系統</div>
 
   <script>
- // 取得網址參數並轉為大寫
-const code = new URLSearchParams(window.location.search).get("code")?.toUpperCase() || "未知";
-document.getElementById("code").textContent = code;
+    const code = new URLSearchParams(window.location.search).get("code")?.toUpperCase() || "未知";
+    document.getElementById("code").textContent = code;
 
-// 設定圖片網址與說明
-const base = "https://jjlin7525.github.io/BPtest2.0/images/";
-document.getElementById("img_male").src = `${base}${code}_m.jpg`;
-document.getElementById("img_female").src = `${base}${code}_f.jpg`;
+    const base = "https://jjlin7525.github.io/BPtest2.0/images/";
+    document.getElementById("img_1").src = `${base}${code}1.jpg`;
+    document.getElementById("img_2").src = `${base}${code}2.jpg`;
 
-// 個別說明對照（key 也全部使用大寫）
-const descMap = {
-  IMLC: "你是「感應牌王」，仰賴直覺作戰，擅長察覺場面節奏與微妙變化，是天生的牌桌感應者...",
-  EMLC: "你是「走勢裁決官」，善於分析長線趨勢，擅長從多局牌路中尋找模式與規律...",
-  IPRC: "你是「反指預言家」，擅長從群體錯誤中找到破綻，下注時常反向建構，擁有反市場的直覺與判斷力...",
-  EMRC: "你是「數據殺局者」，擅長統計與比對，經常在亂局中找出高勝率路線...",
-  IMRC: "你是「機台解碼者」，具備觀察力與記憶力，擅長推敲出分機率與節奏...",
-  EPLR: "你是「機率駭客」，深諳數學邏輯，精通風險管理，是冷靜高效的操作玩家...",
-  IMLR: "你是「補分流氓」，喜歡挑戰高報酬區間，操作風格大膽，屬於狠角色...",
-  EPLC: "你是「連爆之王」，掌握爆發節奏，能在氣勢局中一舉連勝，打爆牌桌..."
-};
+    const descMap = {
+      IMLC: "你是「感應牌王」，仰賴直覺作戰，擅長察覺場面節奏與微妙變化，是天生的牌桌感應者...",
+      EMLC: "你是「走勢裁決官」，善於分析長線趨勢，擅長從多局牌路中尋找模式與規律，下注節奏沉穩...",
+      IPRC: "你是「反指預言家」，擅長從群體錯誤中找到破綻，下注時常反向建構，擁有反市場的直覺與判斷力...",
+      EMRC: "你是「數據殺局者」，擅長統計與比對，經常在看似無序的亂局中找出高勝率操作路徑...",
+      IMRC: "你是「機台解碼者」，具備觀察力與記憶力，喜歡推敲演算法與出分邏輯，是破解系統的高手...",
+      EPLR: "你是「機率駭客」，深諳數學邏輯，精通風險管理，是高效又冷靜的精算型玩家...",
+      IMLR: "你是「補分流氓」，風格大膽，喜歡挑戰高報酬區間，操作方式往往突破常理，屬於反骨中的狠角色...",
+      EPLC: "你是「連爆之王」，掌握熱局爆發節奏，擅長在高氣勢場面中一舉連勝，是帶節奏的強勢莊家..."
+    };
 
-// 插入文字說明
-document.getElementById("descBox").textContent =
-  descMap[code] || "⚠️ 找不到對應的人格說明，請重新測驗或聯繫我們。";
+    document.getElementById("descBox").textContent =
+      descMap[code] || "⚠️ 找不到對應的人格說明，請重新測驗或聯繫我們。";
   </script>
 
 </body>
