@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  .question-block {
+  <meta charset="UTF-8" />
+  <title>博弈人格測驗結果</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #eee;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px;
+    }
+
+    .question-block {
       margin-bottom: 24px;
       font-size: 18px;
       line-height: 1.8;
@@ -13,13 +23,6 @@
       margin-bottom: 8px;
     }
 
-    body {
-      background-color: #111;
-      color: #eee;
-      font-family: 'Segoe UI', sans-serif;
-      padding: 40px;
-    }
-
     button {
       padding: 10px 20px;
       background-color: #00ffe1;
@@ -29,7 +32,54 @@
       cursor: pointer;
       margin-bottom: 30px;
     }
+
+    .result-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      align-items: flex-start;
+      margin-top: 30px;
+    }
+
+    .result-img {
+      flex: 1;
+      max-width: 300px;
+    }
+
+    .result-img img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .result-text {
+      flex: 2;
+      min-width: 280px;
+    }
+
+    .result-text h3 {
+      font-size: 26px;
+      color: #00ffe1;
+      margin-bottom: 10px;
+    }
+
+    .result-text p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #eee;
+    }
+
+    @media screen and (max-width: 768px) {
+      .result-flex {
+        flex-direction: column;
+      }
+
+      .result-img,
+      .result-text {
+        max-width: 100%;
+      }
+    }
   </style>
+</head>
 
 <body>
   <form id="quizForm" onsubmit="return false;">
