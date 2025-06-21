@@ -55,7 +55,7 @@
 </head>
 <body>
   <div class="container">
-    <h2>精選博弈人格測驗（共20題）</h2>
+    <h2>博弈人格測驗（共20題）</h2>
     <!-- Q1~Q10 保持不變，省略重複內容 -->
 
     <div class="question-block">
@@ -257,27 +257,26 @@
         scores[i - 1] = parseInt(selected.value);
       }
 
-      const sum = scores.reduce((a, b) => a + b, 0);
+      const resultBox = document.getElementById("result");
 
-      let type = '';
-      if (sum <= 40) type = 'IMLC';
-      else if (sum <= 60) type = 'IPRC';
-      else if (sum <= 80) type = 'EMLC';
-      else if (sum <= 100) type = 'EMRC';
-      else if (sum <= 110) type = 'EPLC';
-      else if (sum <= 120) type = 'IMRC';
-      else if (sum <= 130) type = 'EPLR';
-      else type = 'IMLR';
+    const type = code;
+    const imgSrc = imageMap[type];
+    const personality = personalityNameMap[type] || "未知人格";
+    const description = personalityDescMap[type] || "⚠️ 找不到對應的人格說明，請重新測試或聯繫我們。";
 
-      const resultBox = document.getElementById('result');
-      resultBox.style.display = 'block';
-      resultBox.innerHTML = `
-        <h3>測驗結果：${type}</h3>
-        <img src="${imageMap[type]}" alt="${type}" />
-        <p>${personalityDescriptions[type]}</p>
-        <p><a href="https://reurl.cc/M3lAr4" target="_blank" style="color:#00ffe1;text-decoration:underline;">點我立即體驗專屬AI預測系統 →</a></p>
-      `;
-    });
+    resultBox.innerHTML = `
+      <div class="result-flex">
+        <div class="result-img">
+          <img src="${imgSrc}" alt="${type}">
+        </div>
+        <div class="result-text">
+          <h3>你是「${personality}」</h3>
+          <p>${description}</p>
+          <p><a href="https://reurl.cc/M3lAr4" target="_blank">點我立即體驗專屬AI預測系統 →</a></p>
+        </div>
+      </div>
+    `;
   </script>
+
 </body>
 </html>
