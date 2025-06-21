@@ -259,24 +259,20 @@
 
       const resultBox = document.getElementById("result");
 
-    const type = code;
-    const imgSrc = imageMap[type];
-    const personality = personalityNameMap[type] || "未知人格";
-    const description = personalityDescMap[type] || "⚠️ 找不到對應的人格說明，請重新測試或聯繫我們。";
+const type = code;
+const personality = personalityNameMap[type] || "未知人格";
+const description = personalityDescMap[type] || "⚠️ 找不到對應的人格說明，請重新測試或聯繫我們。";
 
-    resultBox.innerHTML = `
-      <div class="result-flex">
-        <div class="result-img">
-          <img src="${imgSrc}" alt="${type}">
-        </div>
-        <div class="result-text">
-          <h3>你是「${personality}」</h3>
-          <p>${description}</p>
-          <p><a href="https://reurl.cc/M3lAr4" target="_blank">點我立即體驗專屬AI預測系統 →</a></p>
-        </div>
-      </div>
-    `;
-  </script>
-
-</body>
-</html>
+resultBox.innerHTML = `
+  <div class="result-flex">
+    <div class="result-img">
+      <img src="images/${type}1.jpg" alt="${type}-1">
+      <img src="images/${type}2.jpg" alt="${type}-2" style="margin-top: 20px;">
+    </div>
+    <div class="result-text">
+      <h3 style="color: #00ffe1; font-size: 24px; margin-bottom: 10px;">你是「${personality}」</h3>
+      <p style="line-height: 1.8; font-size: 16px; color: #eee;">${description}</p>
+      <p style="margin-top: 20px;"><a href="https://reurl.cc/M3lAr4" target="_blank" style="color: #00ffe1;">點我立即體驗專屬AI預測系統 →</a></p>
+    </div>
+  </div>
+`;
