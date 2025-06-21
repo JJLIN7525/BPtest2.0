@@ -20,7 +20,10 @@
     </div>
     <div class="desc" id="descBox">載入中...</div>
   </div>
-
+<div class="share-box">
+  <button onclick="copyLink()">📋 複製結果連結</button>
+  <span id="copyMsg" style="margin-left: 10px;"></span>
+</div>
   <script>
     const code = new URLSearchParams(window.location.search).get("code")?.toUpperCase() || "未知";
     document.getElementById("code").textContent = code;
@@ -42,5 +45,42 @@
 
     document.getElementById("descBox").textContent = descMap[code] || "找不到對應的人格描述，請重新測驗或聯繫系統管理員。";
   </script>
+<!-- 分享與複製連結按鈕 -->
+<div class="share-box" style="margin-top: 30px;">
+  <button onclick="copyLink()">📋 複製結果連結</button>
+  <span id="copyMsg" style="margin-left: 10px; color: green;"></span>
+  <br /><br />
+  <a id="lineShareBtn" target="_blank">💬 用 LINE 分享給朋友</a>
+</div>
+
+<style>
+  .share-box button {
+    background-color: #222;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .share-box button:hover {
+    background-color: #444;
+  }
+
+  #lineShareBtn {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #00c300;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  #lineShareBtn:hover {
+    text-decoration: underline;
+  }
+</style>
+
 </body>
 </html>
