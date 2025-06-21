@@ -4,39 +4,83 @@
   <meta charset="UTF-8">
   <title>博弈人格測驗結果</title>
   <style>
-    body { font-family: sans-serif; text-align: center; background: #111; color: #eee; padding: 40px; }
-    .avatar { width: 200px; height: auto; margin: 10px; border-radius: 12px; box-shadow: 0 0 12px rgba(255,255,255,0.2); }
-    .result-box { max-width: 700px; margin: auto; background: #222; padding: 20px; border-radius: 16px; }
-    .code { font-size: 24px; font-weight: bold; color: #0f0; }
-    .desc { text-align: left; margin-top: 20px; line-height: 1.6; }
+    body {
+      background-color: #111;
+      color: #eee;
+      font-family: 'Noto Sans TC', sans-serif;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .result-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .character-box {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .character img {
+      max-width: 300px;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+    }
+
+    .result-text {
+      background-color: yellow;
+      color: black;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: left;
+      line-height: 1.8;
+      font-size: 16px;
+    }
+
+    .result-text h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .result-text p {
+      margin: 0;
+    }
   </style>
 </head>
+
 <body>
-  <div class="result-box">
-    <h1>你的博弈人格代碼是：<span id="code" class="code">-</span></h1>
-    <div>
-      <img id="img_male" class="avatar" src="" alt="男性角色">
-      <img id="img_female" class="avatar" src="" alt="女性角色">
+  <div class="result-container">
+    <div class="character-box">
+      <div class="character">
+        <img id="img_male" src="" alt="男性角色圖">
+      </div>
+      <div class="character">
+        <img id="img_female" src="" alt="女性角色圖">
+      </div>
     </div>
-    <div class="desc" id="descBox">載入中...</div>
+
+    <div class="result-text">
+      <h2>測驗結果：<span id="code">-</span></h2>
+      <p id="descBox">載入中...</p>
+    </div>
   </div>
-<div class="share-box">
-  <button onclick="copyLink()">📋 複製結果連結</button>
-  <span id="copyMsg" style="margin-left: 10px;"></span>
-</div>
+
   <script>
-  const code = new URLSearchParams(window.location.search).get("code")?.toUpperCase() || "未知";
+    const code = new URLSearchParams(window.location.search).get("code")?.toUpperCase() || "未知";
+    document.getElementById("code").textContent = code;
 
-// 分離主代碼與性別
-const [mainCode, gender] = code.split("_");
+    // 圖片來源設定
+    const base = "https://jjlin7525.github.io/BPtest2.0/images/";
+    document.getElementById("img_male").src = `${base}${code}_m.jpg`;
+    document.getElementById("img_female").src = `${base}${code}_f.jpg`;
 
-document.getElementById("code").textContent = code;
-
-const base = "https://jklin7525.github.io/BPtest2.0/images/";
-document.getElementById("img_male").src = `${base}${mainCode}_m.jpg`;
-document.getElementById("img_female").src = `${base}${mainCode}_f.jpg`;
-
-
+    // 描述文字資料
     const descMap = {
       IMLC: "你是「感應牌王」，仰賴直覺作戰，擅長察覺場面節奏與微妙變化，下注憑感覺、選局看氛圍，是天生的牌桌感應者。建議搭配簡單規則提升穩定性。",
       EMLC: "你是「走勢裁決官」，用路線圖與趨勢脈絡做判斷，擅長反轉分析與冷靜推理。適合多局觀察與漸進式下法。",
@@ -48,44 +92,9 @@ document.getElementById("img_female").src = `${base}${mainCode}_f.jpg`;
       IMLR: "你是「補分流氓」，擅長在逆風中強勢翻盤，偏好輸後加倍、補破口反打，具強烈對抗與心理承壓力。"
     };
 
-    document.getElementById("descBox").textContent = descMap[code] || "找不到對應的人格描述，請重新測驗或聯繫系統管理員。";
+    // 顯示對應人格說明
+    document.getElementById("descBox").textContent =
+      descMap[code] || "找不到對應的人格描述，請重新測驗或聯繫管理員。";
   </script>
-<!-- 分享與複製連結按鈕 -->
-<div class="share-box" style="margin-top: 30px;">
-  <button onclick="copyLink()">📋 複製結果連結</button>
-  <span id="copyMsg" style="margin-left: 10px; color: green;"></span>
-  <br /><br />
-  <a id="lineShareBtn" target="_blank">💬 用 LINE 分享給朋友</a>
-</div>
-
-<style>
-  .share-box button {
-    background-color: #222;
-    color: #fff;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-
-  .share-box button:hover {
-    background-color: #444;
-  }
-
-  #lineShareBtn {
-    display: inline-block;
-    margin-top: 10px;
-    font-size: 14px;
-    color: #00c300;
-    text-decoration: none;
-    font-weight: bold;
-  }
-
-  #lineShareBtn:hover {
-    text-decoration: underline;
-  }
-</style>
-
 </body>
 </html>
