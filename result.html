@@ -25,12 +25,17 @@
   <span id="copyMsg" style="margin-left: 10px;"></span>
 </div>
   <script>
-    const code = new URLSearchParams(window.location.search).get("code")?.toUpperCase() || "未知";
-    document.getElementById("code").textContent = code;
+  const code = new URLSearchParams(window.location.search).get("code")?.toUpperCase() || "未知";
 
-    const base = "https://jklin7525.github.io/BPtest2.0/images/";
-    document.getElementById("img_male").src = `${base}${code}_m.jpg`;
-    document.getElementById("img_female").src = `${base}${code}_f.jpg`;
+// 分離主代碼與性別
+const [mainCode, gender] = code.split("_");
+
+document.getElementById("code").textContent = code;
+
+const base = "https://jklin7525.github.io/BPtest2.0/images/";
+document.getElementById("img_male").src = `${base}${mainCode}_m.jpg`;
+document.getElementById("img_female").src = `${base}${mainCode}_f.jpg`;
+
 
     const descMap = {
       IMLC: "你是「感應牌王」，仰賴直覺作戰，擅長察覺場面節奏與微妙變化，下注憑感覺、選局看氛圍，是天生的牌桌感應者。建議搭配簡單規則提升穩定性。",
