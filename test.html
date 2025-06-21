@@ -31,29 +31,45 @@
       margin-top: 20px;
     }
     .progress-bar {
-  width: 100%;
-  background-color: #ddd;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-
-.progress {
-  height: 20px;
-  background-color: #4caf50;
-  width: 0%;
-  border-radius: 5px;
-}
-</div>
+      width: 100%;
+      background-color: #ddd;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    .progress {
+      height: 20px;
+      background-color: #4caf50;
+      width: 0%;
+      border-radius: 5px;
+    }
+    /* 你可以自行加更多結果顯示樣式 */
+    .result-flex {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .result-img img {
+      max-width: 150px;
+      border-radius: 8px;
+    }
+    .result-text h3 {
+      margin-top: 0;
+      color: #00ffe1;
+    }
+    .result-text p {
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
   <h2>博弈人格測驗</h2>
   <div class="progress-bar">
-  <div class="progress" id="progress"></div>
-  <div id="progress-text" style="text-align: right; margin-top: -18px; margin-bottom: 10px;">0%</div>
-</div>
+    <div class="progress" id="progress"></div>
+    <div id="progress-text" style="text-align: right; margin-top: -18px; margin-bottom: 10px;">0%</div>
+  </div>
 
   <form id="quizForm">
+    <!-- Page 1 -->
     <div class="page active" id="page1">
       <div class="question-block">
         <p>Q1. 你下注時會先評估勝率還是感覺？</p>
@@ -95,9 +111,11 @@
         <label><input type="radio" name="q5" value="4"> 壓反方向</label>
         <label><input type="radio" name="q5" value="5"> 轉為測試打法</label>
       </div>
-      </div>
+    </div>
+
+    <!-- Page 2 -->
     <div class="page" id="page2">
- <div class="question-block">
+      <div class="question-block">
         <p>Q6. 你是否曾經為了贏回損失而翻倍下注？</p>
         <label><input type="radio" name="q6" value="1"> 從不</label>
         <label><input type="radio" name="q6" value="2"> 很少</label>
@@ -138,48 +156,52 @@
         <label><input type="radio" name="q10" value="5"> 非常容易受影響</label>
       </div>
     </div>
+
+    <!-- Page 3 -->
     <div class="page" id="page3">
-    <div class="question-block">
-      <p>Q11. 你是否會記錄自己過往的下注紀錄？</p>
-      <label><input type="radio" name="q11" value="1"> 從不紀錄</label>
-      <label><input type="radio" name="q11" value="2"> 很少紀錄</label>
-      <label><input type="radio" name="q11" value="3"> 偶爾記錄</label>
-      <label><input type="radio" name="q11" value="4"> 有系統記錄</label>
-      <label><input type="radio" name="q11" value="5"> 每局都記錄</label>
+      <div class="question-block">
+        <p>Q11. 你是否會記錄自己過往的下注紀錄？</p>
+        <label><input type="radio" name="q11" value="1"> 從不紀錄</label>
+        <label><input type="radio" name="q11" value="2"> 很少紀錄</label>
+        <label><input type="radio" name="q11" value="3"> 偶爾記錄</label>
+        <label><input type="radio" name="q11" value="4"> 有系統記錄</label>
+        <label><input type="radio" name="q11" value="5"> 每局都記錄</label>
+      </div>
+      <div class="question-block">
+        <p>Q12. 你是否相信補分時機的存在？</p>
+        <label><input type="radio" name="q12" value="1"> 完全不信</label>
+        <label><input type="radio" name="q12" value="2"> 偶爾考慮</label>
+        <label><input type="radio" name="q12" value="3"> 一半一半</label>
+        <label><input type="radio" name="q12" value="4"> 偏向相信</label>
+        <label><input type="radio" name="q12" value="5"> 非常信仰</label>
+      </div>
+      <div class="question-block">
+        <p>Q13. 你是否會嘗試解讀機率與機台行為？</p>
+        <label><input type="radio" name="q13" value="1"> 完全不懂</label>
+        <label><input type="radio" name="q13" value="2"> 不太在意</label>
+        <label><input type="radio" name="q13" value="3"> 看情況</label>
+        <label><input type="radio" name="q13" value="4"> 有時研究</label>
+        <label><input type="radio" name="q13" value="5"> 深度研究</label>
+      </div>
+      <div class="question-block">
+        <p>Q14. 你對預測型工具（如AI預測系統）的信任程度？</p>
+        <label><input type="radio" name="q14" value="1"> 完全不信</label>
+        <label><input type="radio" name="q14" value="2"> 偶爾看看</label>
+        <label><input type="radio" name="q14" value="3"> 一半一半</label>
+        <label><input type="radio" name="q14" value="4"> 通常依賴</label>
+        <label><input type="radio" name="q14" value="5"> 完全依靠</label>
+      </div>
+      <div class="question-block">
+        <p>Q15. 你會不會為了「贏一次大局」而承擔風險？</p>
+        <label><input type="radio" name="q15" value="1"> 從不</label>
+        <label><input type="radio" name="q15" value="2"> 很少</label>
+        <label><input type="radio" name="q15" value="3"> 視情況</label>
+        <label><input type="radio" name="q15" value="4"> 常常</label>
+        <label><input type="radio" name="q15" value="5"> 習慣壓重注</label>
+      </div>
     </div>
-    <div class="question-block">
-      <p>Q12. 你是否相信補分時機的存在？</p>
-      <label><input type="radio" name="q12" value="1"> 完全不信</label>
-      <label><input type="radio" name="q12" value="2"> 偶爾考慮</label>
-      <label><input type="radio" name="q12" value="3"> 一半一半</label>
-      <label><input type="radio" name="q12" value="4"> 偏向相信</label>
-      <label><input type="radio" name="q12" value="5"> 非常信仰</label>
-    </div>
-    <div class="question-block">
-      <p>Q13. 你是否會嘗試解讀機率與機台行為？</p>
-      <label><input type="radio" name="q13" value="1"> 完全不懂</label>
-      <label><input type="radio" name="q13" value="2"> 不太在意</label>
-      <label><input type="radio" name="q13" value="3"> 看情況</label>
-      <label><input type="radio" name="q13" value="4"> 有時研究</label>
-      <label><input type="radio" name="q13" value="5"> 深度研究</label>
-    </div>
-    <div class="question-block">
-      <p>Q14. 你對預測型工具（如AI預測系統）的信任程度？</p>
-      <label><input type="radio" name="q14" value="1"> 完全不信</label>
-      <label><input type="radio" name="q14" value="2"> 偶爾看看</label>
-      <label><input type="radio" name="q14" value="3"> 一半一半</label>
-      <label><input type="radio" name="q14" value="4"> 通常依賴</label>
-      <label><input type="radio" name="q14" value="5"> 完全依靠</label>
-    </div>
-    <div class="question-block">
-      <p>Q15. 你會不會為了「贏一次大局」而承擔風險？</p>
-      <label><input type="radio" name="q15" value="1"> 從不</label>
-      <label><input type="radio" name="q15" value="2"> 很少</label>
-      <label><input type="radio" name="q15" value="3"> 視情況</label>
-      <label><input type="radio" name="q15" value="4"> 常常</label>
-      <label><input type="radio" name="q15" value="5"> 習慣壓重注</label>
-    </div>
-    </div>
+
+    <!-- Page 4 -->
     <div class="page" id="page4">
       <div class="question-block">
         <p>Q16. 你是否會根據不同平台調整策略？</p>
@@ -224,70 +246,21 @@
       <button type="button" id="submitBtn">查看測驗結果</button>
       <div id="result"></div>
     </div>
+
     <div class="navigation">
       <button type="button" onclick="prevPage()">上一頁</button>
       <button type="button" onclick="nextPage()">下一頁</button>
     </div>
+  </form>
+
   <script>
-     let currentPage = 1;
+    let currentPage = 1;
     const totalPages = 4;
 
-    function showPage(page) {
-  for (let i = 1; i <= totalPages; i++) {
-    document.getElementById(`page${i}`)?.classList.remove("active");
-  }
-  document.getElementById(`page${page}`)?.classList.add("active");
-
-  // ✅ 更新進度條寬度
-  document.getElementById("progress").style.width = `${(page / totalPages) * 100}%`;
-
-  // ✅ 新增：更新進度條右上角的文字
-  document.getElementById("progress-text").innerText = `${Math.round((page / totalPages) * 100)}%`;
-
-  // 顯示送出按鈕（只有到最後一頁才顯示）
-  document.getElementById("submitBtn").style.display = (page === totalPages) ? "block" : "none";
-}
-
-    function validatePage(page) {
-      const inputs = document.querySelectorAll(`#page${page} input[type="radio"]`);
-      const names = new Set();
-      inputs.forEach(input => names.add(input.name));
-      for (let name of names) {
-        if (!document.querySelector(`input[name="${name}"]:checked`)) {
-          alert("請完成本頁所有題目再繼續");
-          return false;
-        }
-      }
-      return true;
-    }
-
-    function nextPage() {
-      if (!validatePage(currentPage)) return;
-      if (currentPage < totalPages) {
-        currentPage++;
-        showPage(currentPage);
-      }
-    }
-
-    function prevPage() {
-      if (currentPage > 1) {
-        currentPage--;
-        showPage(currentPage);
-      }
-    }
-
-    document.getElementById("submitBtn").addEventListener("click", () => {
-      let totalScore = 0;
-      for (let i = 1; i <= 20; i++) {
-        const val = document.querySelector(`input[name="q${i}"]:checked`);
-        if (!val) {
-          alert("請完整填寫所有題目再提交！");
-          return;
     const resultMap = {
       IMLC: {
         name: '感應牌王',
         desc: '你是「感應牌王」，是一位靠直覺走跳牌場的天選之人。你擁有超凡的場感，能從空氣中的氣氛與細節中嗅出走勢的端倪，下注時看似隨性，實則憑藉內建雷達在運作。你不喜歡死背打法，也不愛看數據報表，你相信「第一眼的感覺永遠不會錯」。然而，這種打法容易在遇到冷盤或連敗時失去判斷基礎，導致信心崩塌。你也常因太信任直覺而忽略客觀條件，失去策略調整的彈性。建議你可搭配簡單的下注紀錄與趨勢驗證機制，讓你的第六感有依據可循，不僅提升穩定度，也能避免陷入情緒操作。當你的感覺結合邏輯思維時，將成為真正難以被破解的賭桌感應者。',
-
         img: 'IMLC'
       },
       EMLC: {
@@ -327,23 +300,68 @@
       }
     };
 
-    document.getElementById('submitBtn').addEventListener('click', () => {
-      document.getElementById("progress-text").innerText = `${Math.round((page / totalPages) * 100)}%`;
-      const dimensions = [0, 0, 0, 0];
+    function showPage(page) {
+      for (let i = 1; i <= totalPages; i++) {
+        document.getElementById(`page${i}`).classList.remove("active");
+      }
+      document.getElementById(`page${page}`).classList.add("active");
 
+      // 更新進度條
+      document.getElementById("progress").style.width = `${(page / totalPages) * 100}%`;
+      document.getElementById("progress-text").innerText = `${Math.round((page / totalPages) * 100)}%`;
+
+      // 只有最後一頁顯示送出按鈕
+      document.getElementById("submitBtn").style.display = (page === totalPages) ? "block" : "none";
+    }
+
+    function validatePage(page) {
+      const inputs = document.querySelectorAll(`#page${page} input[type="radio"]`);
+      const names = new Set();
+      inputs.forEach(input => names.add(input.name));
+      for (let name of names) {
+        if (!document.querySelector(`input[name="${name}"]:checked`)) {
+          alert("請完成本頁所有題目再繼續");
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function nextPage() {
+      if (!validatePage(currentPage)) return;
+      if (currentPage < totalPages) {
+        currentPage++;
+        showPage(currentPage);
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    }
+
+    document.getElementById("submitBtn").addEventListener("click", () => {
+      // 檢查是否全答完
       for (let i = 1; i <= 20; i++) {
-        const selected = document.querySelector(`input[name=q${i}]:checked`);
-        if (!selected) {
+        if (!document.querySelector(`input[name=q${i}]:checked`)) {
           alert(`第 ${i} 題尚未作答`);
           return;
         }
-        const value = parseInt(selected.value);
-        if (i % 5 === 1) dimensions[0] += value; // I vs E
-        if (i % 5 === 2) dimensions[1] += value; // M vs P
-        if (i % 5 === 3) dimensions[2] += value; // L vs R
-        if (i % 5 === 4) dimensions[3] += value; // C vs R
       }
 
+      // 計算維度分數
+      const dimensions = [0, 0, 0, 0];
+      for (let i = 1; i <= 20; i++) {
+        const value = parseInt(document.querySelector(`input[name=q${i}]:checked`).value);
+        if (i % 5 === 1) dimensions[0] += value;
+        else if (i % 5 === 2) dimensions[1] += value;
+        else if (i % 5 === 3) dimensions[2] += value;
+        else if (i % 5 === 4) dimensions[3] += value;
+      }
+
+      // 判斷結果代碼
       const code =
         (dimensions[0] <= 12 ? 'I' : 'E') +
         (dimensions[1] <= 12 ? 'M' : 'P') +
@@ -351,16 +369,13 @@
         (dimensions[3] <= 12 ? 'C' : 'R');
 
       const result = resultMap[code];
-      console.log("生成的代碼是：", code);
-
-      const resultBox = document.getElementById("result");
-
       if (!result) {
-        resultBox.innerHTML = `<p style="color: red;">⚠️ 無法判定您的結果代碼，請確認是否每題皆已作答。</p>`;
+        document.getElementById("result").innerHTML = `<p style="color: red;">⚠️ 無法判定您的結果代碼，請確認是否每題皆已作答。</p>`;
         return;
       }
 
-      resultBox.innerHTML = `
+      // 顯示結果
+      document.getElementById("result").innerHTML = `
         <div class="result-flex">
           <div class="result-img">
             <img src="images/${result.img}1.jpg" alt="${result.name}1">
@@ -374,8 +389,9 @@
         </div>
       `;
     });
+
+    // 初始化頁面
+    showPage(currentPage);
   </script>
-</body>
-</html>
 </body>
 </html>
