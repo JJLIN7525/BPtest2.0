@@ -1,142 +1,87 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>博弈人格測驗</title>
   <style>
-    /* 深色系質感風 CSS */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #121212;
-  color: #e0e0e0;
-  margin: 0;
-  padding: 20px;
-}
-h2 {
-  color: #00ffe1;
-  text-align: center;
-  margin-bottom: 30px;
-}
-.question-block p {
-  font-weight: 600;
-  color: #ffffffcc;
-}
-label {
-  display: block;
-  margin-left: 20px;
-  cursor: pointer;
-  font-size: 16px;
-  color: #b0b0b0;
-  padding: 6px 0;
-  transition: color 0.3s;
-}
-label:hover {
-  color: #00ffe1;
-}
-input[type="radio"]:checked + label {
-  color: #00ffe1;
-}
-.page {
-  display: none;
-}
-.active {
-  display: block;
-}
-.navigation {
-  margin-top: 20px;
-  text-align: center;
-}
-.navigation button {
-  background-color: #00ffe1;
-  border: none;
-  color: #121212;
-  padding: 10px 25px;
-  margin: 5px;
-  font-weight: bold;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-.navigation button:hover {
-  background-color: #00b9a6;
-}
-.progress-bar {
-  width: 100%;
-  background-color: #222;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 15px;
-  height: 20px;
-}
-.progress {
-  height: 100%;
-  background: linear-gradient(90deg, #00ffe1, #00b9a6);
-  width: 0%;
-  border-radius: 10px 0 0 10px;
-  transition: width 0.4s ease;
-}
-#progress-text {
-  text-align: right;
-  color: #00ffe1;
-  font-weight: bold;
-  margin-bottom: 25px;
-}
-#submitBtn {
-  background-color: #00ffe1;
-  color: #121212;
-  border: none;
-  padding: 12px 40px;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
-  display: none;
-  margin: 20px auto 0;
-  display: block;
-}
-#submitBtn:hover {
-  background-color: #00b9a6;
-}
-#result {
-  margin-top: 30px;
-  color: #e0e0e0;
-}
-.result-flex {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  margin-top: 20px;
-  flex-wrap: wrap;
-}
-.result-img img {
-  max-width: 180px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px #00ffe1aa;
-}
-.result-text {
-  max-width: 600px;
-}
-.result-text h3 {
-  color: #00ffe1;
-}
-.result-text a {
-  color: #00ffe1;
-  font-weight: 700;
-  text-decoration: none;
-}
-.result-text a:hover {
-  text-decoration: underline;
-}
+    body {
+      background-color: #121212;
+      color: #f5f5f5;
+      font-family: 'Noto Sans TC', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .answers label {
+      display: block;
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .answers label:hover {
+      background-color: #2e2e2e;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #03dac5;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #018786;
+    }
+    .progress-text {
+      text-align: right;
+      margin-top: -18px;
+      margin-bottom: 10px;
+      color: #bbb;
+    }
+    .result {
+      margin-top: 40px;
+    }
+    .result-flex {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .result-flex img {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+    .share-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .share-buttons button {
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #777;
+    }
   </style>
 </head>
 <body>
-  <h2>博弈人格測驗</h2>
-  <div class="progress-bar">
-    <div class="progress" id="progress"></div>
-    <div id="progress-text" style="text-align: right; margin-top: -18px; margin-bottom: 10px;">0%</div>
+  <div class="container">
+    <div class="progress-text" id="progress-text">0%</div>
+    <div id="quiz"></div>
+    <button id="nextBtn">下一頁</button>
+    <div id="result"></div>
   </div>
-
   <form id="quizForm">
     <!-- Page 1 -->
     <div class="page active" id="page1">
@@ -369,98 +314,89 @@ input[type="radio"]:checked + label {
       }
     };
 
+   const scores = { I: 0, M: 0, L: 0, C: 0, R: 0 };
+    let currentPage = 1;
+    const totalPages = Math.ceil(questions.length / questionsPerPage);
+
     function showPage(page) {
-      for (let i = 1; i <= totalPages; i++) {
-        document.getElementById(`page${i}`).classList.remove("active");
-      }
-      document.getElementById(`page${page}`).classList.add("active");
+      const quizDiv = document.getElementById("quiz");
+      quizDiv.innerHTML = "";
+      const startIndex = (page - 1) * questionsPerPage;
+      const endIndex = page * questionsPerPage;
+      questions.slice(startIndex, endIndex).forEach((q, index) => {
+        const questionDiv = document.createElement("div");
+        questionDiv.className = "question";
+        const questionTitle = document.createElement("h3");
+        questionTitle.innerText = `${startIndex + index + 1}. ${q.question}`;
+        questionDiv.appendChild(questionTitle);
 
-      // 更新進度條
-      document.getElementById("progress").style.width = `${(page / totalPages) * 100}%`;
+        const answerDiv = document.createElement("div");
+        answerDiv.className = "answers";
+
+        q.options.forEach(opt => {
+          const label = document.createElement("label");
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = `q${startIndex + index}`;
+          input.value = opt.value;
+          input.onclick = () => {
+            scores[q.type] += parseInt(opt.value);
+          };
+          label.appendChild(input);
+          label.appendChild(document.createTextNode(opt.text));
+          answerDiv.appendChild(label);
+        });
+
+        questionDiv.appendChild(answerDiv);
+        quizDiv.appendChild(questionDiv);
+      });
+
       document.getElementById("progress-text").innerText = `${Math.round((page / totalPages) * 100)}%`;
-
-      // 只有最後一頁顯示送出按鈕
-      document.getElementById("submitBtn").style.display = (page === totalPages) ? "block" : "none";
-    }
-
-    function validatePage(page) {
-      const inputs = document.querySelectorAll(`#page${page} input[type="radio"]`);
-      const names = new Set();
-      inputs.forEach(input => names.add(input.name));
-      for (let name of names) {
-        if (!document.querySelector(`input[name="${name}"]:checked`)) {
-          alert("請完成本頁所有題目再繼續");
-          return false;
-        }
-      }
-      return true;
+      document.getElementById("nextBtn").innerText = page === totalPages ? "提交測驗" : "下一頁";
     }
 
     function nextPage() {
-      if (!validatePage(currentPage)) return;
       if (currentPage < totalPages) {
         currentPage++;
         showPage(currentPage);
+      } else {
+        showResult();
       }
     }
 
-    function prevPage() {
-      if (currentPage > 1) {
-        currentPage--;
-        showPage(currentPage);
-      }
-    }
-
-    document.getElementById("submitBtn").addEventListener("click", () => {
-      // 檢查是否全答完
-      for (let i = 1; i <= 20; i++) {
-        if (!document.querySelector(`input[name=q${i}]:checked`)) {
-          alert(`第 ${i} 題尚未作答`);
-          return;
-        }
-      }
-
-      // 計算維度分數
-      const dimensions = [0, 0, 0, 0];
-      for (let i = 1; i <= 20; i++) {
-        const value = parseInt(document.querySelector(`input[name=q${i}]:checked`).value);
-        if (i % 5 === 1) dimensions[0] += value;
-        else if (i % 5 === 2) dimensions[1] += value;
-        else if (i % 5 === 3) dimensions[2] += value;
-        else if (i % 5 === 4) dimensions[3] += value;
-      }
-
-      // 判斷結果代碼
+    function showResult() {
       const code =
-        (dimensions[0] <= 12 ? 'I' : 'E') +
-        (dimensions[1] <= 12 ? 'M' : 'P') +
-        (dimensions[2] <= 12 ? 'L' : 'R') +
-        (dimensions[3] <= 12 ? 'C' : 'R');
+        (scores.I <= 12 ? "I" : "E") +
+        (scores.M <= 12 ? "M" : "P") +
+        (scores.L <= 12 ? "L" : "R") +
+        (scores.C <= 12 ? "C" : "R");
 
       const result = resultMap[code];
-      if (!result) {
-        document.getElementById("result").innerHTML = `<p style="color: red;">⚠️ 無法判定您的結果代碼，請確認是否每題皆已作答。</p>`;
-        return;
-      }
 
-      // 顯示結果
-document.getElementById("result").innerHTML = `...你的結果HTML內容...`;
+      document.getElementById("quiz").style.display = "none";
+      document.getElementById("nextBtn").style.display = "none";
+      document.getElementById("progress-text").style.display = "none";
+
+      const resultDiv = document.getElementById("result");
+      resultDiv.className = "result";
+      resultDiv.innerHTML = result ? `
         <div class="result-flex">
-          <div class="result-img">
-            <img src="images/${result.img}1.jpg" alt="${result.name}1">
-            <img src="images/${result.img}2.jpg" alt="${result.name}2" style="margin-top: 20px;">
-          </div>
-          <div class="result-text">
-            <h3>你是「${result.name}」<span style="font-size: 18px; color: #00ffe1;">｜${code}</span></h3>
-            <p>${result.desc}</p>
-            <p style="margin-top: 20px;"><a href="https://reurl.cc/M3lAr4" target="_blank" style="color: #00ffe1;">點我立即體驗專屬AI預測系統 →</a></p>
+          <img src="images/${result.img}.png" alt="Result Image" />
+          <h2>${result.name}</h2>
+          <p>${result.desc}</p>
+          <div class="share-buttons">
+            <button onclick="navigator.clipboard.writeText(location.href)">複製連結</button>
+            <button onclick="alert('分享功能未設定')">分享到 IG</button>
+            <button onclick="alert('分享功能未設定')">分享到 Threads</button>
           </div>
         </div>
-      `;
-    });
+      ` : `<p>找不到對應的人格類型。</p>`;
+    }
 
-    // 初始化頁面
-    showPage(currentPage);
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("nextBtn").addEventListener("click", nextPage);
+      showPage(currentPage);
+    });
   </script>
 </body>
 </html>
