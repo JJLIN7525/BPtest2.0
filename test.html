@@ -2,70 +2,73 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>博弈人格測驗</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+  <title>博弈人格測驗結果</title>
   <style>
     body {
-      font-family: 'Noto Sans TC', sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
-      margin: 0;
-      padding: 20px;
+      background-color: #111;
+      color: #eee;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 40px;
     }
-    #result {
-      background: linear-gradient(145deg, #1b1b1b, #121212);
-      box-shadow: 0 0 10px rgba(0, 255, 225, 0.3);
-      border-radius: 15px;
-      padding: 30px;
-      margin-top: 30px;
-      color: #fff;
+
+    button {
+      padding: 10px 20px;
+      background-color: #00ffe1;
+      color: #000;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      margin-bottom: 30px;
     }
+
     .result-flex {
       display: flex;
       flex-wrap: wrap;
+      gap: 30px;
       align-items: flex-start;
-      justify-content: center;
-      gap: 40px;
+      margin-top: 30px;
     }
+
     .result-img {
-      flex: 0 0 280px;
+      flex: 1;
+      max-width: 300px;
     }
+
     .result-img img {
-      max-width: 100%;
+      width: 100%;
       border-radius: 10px;
     }
+
     .result-text {
-      flex: 1;
+      flex: 2;
       min-width: 280px;
     }
-    .question {
-      margin-bottom: 30px;
+
+    .result-text h3 {
+      font-size: 26px;
+      color: #00ffe1;
+      margin-bottom: 10px;
     }
-    .question p {
-      font-weight: bold;
+
+    .result-text p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #eee;
     }
-    label {
-      margin-right: 10px;
-      display: inline-block;
-      margin-bottom: 5px;
-    }
-    button {
-      background-color: #00ffe1;
-      color: #000;
-      padding: 12px 24px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #00cbb7;
+
+    @media screen and (max-width: 768px) {
+      .result-flex {
+        flex-direction: column;
+      }
+
+      .result-img, .result-text {
+        max-width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <form id="quizForm">
+  <form id="quizForm" onsubmit="return false;">
     <h2>博弈人格測驗（共20題）</h2>
      <div class="question-block">
       <p>Q1. 你下注時會先評估勝率還是感覺？</p>
@@ -228,9 +231,7 @@
       <label><input type="radio" name="q20" value="5"> 完全照指示操作</label>
     </div>
     <!-- 提交按鈕 -->
-   <button type="button" id="submitBtn">查看測驗結果</button>
-  </form>
-
+  <button type="button" id="submitBtn">查看測驗結果</button>
   <div id="result"></div>
 
   <script>
@@ -279,8 +280,6 @@
     };
 
     document.getElementById('submitBtn').addEventListener('click', () => {
-      const scores = Array(20).fill(0);
-      const letters = ['I', 'E', 'M', 'P', 'L', 'R', 'C'];
       const dimensions = [0, 0, 0, 0];
 
       for (let i = 1; i <= 20; i++) {
@@ -293,7 +292,7 @@
         if (i % 5 === 1) dimensions[0] += value; // I vs E
         if (i % 5 === 2) dimensions[1] += value; // M vs P
         if (i % 5 === 3) dimensions[2] += value; // L vs R
-        if (i % 5 === 4) dimensions[3] += value; // C vs other
+        if (i % 5 === 4) dimensions[3] += value; // C vs R
       }
 
       const code =
@@ -317,13 +316,15 @@
             <img src="images/${result.img}2.jpg" alt="${result.name}2" style="margin-top: 20px;">
           </div>
           <div class="result-text">
-            <h3 style="color: #00ffe1; font-size: 24px; margin-bottom: 10px;">你是「${result.name}」</h3>
-            <p style="line-height: 1.8; font-size: 16px; color: #eee;">${result.desc}</p>
+            <h3>你是「${result.name}」</h3>
+            <p>${result.desc}</p>
             <p style="margin-top: 20px;"><a href="https://reurl.cc/M3lAr4" target="_blank" style="color: #00ffe1;">點我立即體驗專屬AI預測系統 →</a></p>
           </div>
         </div>
       `;
     });
   </script>
+</body>
+</html>
 </body>
 </html>
