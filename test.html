@@ -4,61 +4,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>博弈人格測驗</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Noto Sans TC', sans-serif;
-      background-color: #0f0f0f;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       color: #fff;
       margin: 0;
-      padding: 0;
-    }
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-    h2 {
-      color: #00ffe1;
-    }
-    .question-block {
-      margin-bottom: 30px;
       padding: 20px;
-      background-color: #1c1c1c;
-      border-radius: 10px;
-    }
-    label {
-      display: block;
-      margin: 5px 0;
-    }
-    #submitBtn {
-      margin: 20px 0;
-      padding: 10px 20px;
-      background-color: #00ffe1;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
     }
     #result {
+      background: linear-gradient(145deg, #1b1b1b, #121212);
+      box-shadow: 0 0 10px rgba(0, 255, 225, 0.3);
+      border-radius: 15px;
+      padding: 30px;
       margin-top: 30px;
-      padding: 20px;
-      background-color: #222;
-      border-radius: 10px;
-      display: none;
+      color: #fff;
     }
-    #result img {
-      max-width: 300px;
-      margin-bottom: 15px;
-      border-radius: 12px;
+    .result-flex {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 40px;
+    }
+    .result-img {
+      flex: 0 0 280px;
+    }
+    .result-img img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+    .result-text {
+      flex: 1;
+      min-width: 280px;
+    }
+    .question {
+      margin-bottom: 30px;
+    }
+    .question p {
+      font-weight: bold;
+    }
+    label {
+      margin-right: 10px;
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+    button {
+      background-color: #00ffe1;
+      color: #000;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #00cbb7;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <form id="quizForm">
     <h2>博弈人格測驗（共20題）</h2>
-    <!-- Q1~Q10 保持不變，省略重複內容 -->
-
-    <div class="question-block">
+     <div class="question-block">
       <p>Q1. 你下注時會先評估勝率還是感覺？</p>
       <label><input type="radio" name="q1" value="1"> 完全憑感覺</label>
       <label><input type="radio" name="q1" value="2"> 大多憑感覺</label>
@@ -219,63 +228,101 @@
       <label><input type="radio" name="q20" value="5"> 完全照指示操作</label>
     </div>
     <!-- 提交按鈕 -->
-  <button id="submitBtn">送出測驗並查看結果</button>
-    <div id="result"></div>
-  </div>
+   <button type="button" id="submitBtn">查看測驗結果</button>
+  </form>
+
+  <div id="result"></div>
 
   <script>
-    const personalityDescriptions = {
-      'IMLC': `你是「感應牌王」，仰賴直覺作戰，擅長察覺場面節奏與微妙變化，下注憑感覺、選局看氛圍，是天生的牌桌感應者。你不屬於公式玩家，反而擅長在混沌中尋找靈感。但若碰上冷盤、陷入連敗，過度憑感覺反而會讓你誤判。建議搭配簡單規則提升穩定性，善用工具進行感知驗證，將有助於勝率提升。`,
-      'IPRC': `你是「反指預言家」，擅長從群體錯誤中找到破綻，常在眾人下注時反向進場。你具備強烈懷疑精神，認為越熱的牌越該閃避，是極具反骨的局勢顛覆者。你的下注風格冒險、反市場邏輯，適合短打與轉折點布局。若能結合牌路數據與人性推理，將具備極高破局力。`,
-      'EMLC': `你是「走勢裁決官」，重視連莊與跳躍、靈感與數據交錯並重。你會觀察每局變化節奏、判斷最佳進退點，是擅長順勢操作的技巧型玩家。你信奉“見好就收”，也敢於重壓長龍，是屬於紀律與直覺兼備的穩健選手。建議進一步強化風控紀律，可避免連輸時的追壓誤區。`,
-      'EMRC': `你是「數據殺局者」，下注前總是先分析牌路、勝率與風險比，是理性至上的計算型博弈者。你重視紀錄、規律與驗證，經常以回測檢驗策略，追求穩定長期收益。若能融入更多動態指標，如補分異動、平台出分時段，你的分析準確率將再度升級。你是最適合AI系統輔助的邏輯玩家。`,
-      'IMRC': `你是「機台解碼者」，偏好研究機率規律、補分節奏與動畫細節，是電子機率型玩法的深度玩家。你會觀察畫面變化、分析平台出分邏輯，適合多機台輪流試打、尋找補分異常點。若能善用腳本偵測、平台AI提示，你將能大幅提升命中精準度，成為破解者中的佼佼者。`,
-      'EPLC': `你是「連爆之王」，擅長鎖定節奏與情緒高點，一波帶走對手。你喜歡熱局、喜歡連勝，講求場感與賭感融合，是天生的激情操盤手。你的優勢是出手果斷、反應敏銳，但也容易在敗勢時因不服輸而重壓。若能學會在爆發與冷靜間切換節奏，將成為極具威脅力的戰士。`,
-      'EPLR': `你是「機率駭客」，擅長運用統計、建模與策略演算法對抗隨機性，是理工腦博弈代表。你喜歡分析投注紀錄，甚至將下注過程模擬為計算模型。你的優勢是邏輯嚴密、不被情緒左右，但若過度依賴理論，可能錯過直覺帶來的轉機。建議搭配即時系統，形成資料驅動的優勢打法。`,
-      'IMLR': `你是「補分流氓」，總能發現冷門時段與平台異常補倉時刻，擅長抓準系統漏洞逆襲反打。你會迴避熱門時間、關注閒時出分率，是屬於專打補倉期與反轉點的技巧型玩家。若能結合多平台資訊與補分規律數據，將有機會在大數據亂流中穩定掠金。`
+    const resultMap = {
+      IMLC: {
+        name: '感應牌王',
+        desc: '靠感覺抓牌，氣節表進出',
+        img: 'IMLC'
+      },
+      EMLC: {
+        name: '走勢裁決官',
+        desc: '用路線分析，為盤再出手',
+        img: 'EMLC'
+      },
+      IPRC: {
+        name: '反指預言家',
+        desc: '習慣逆著群眾，敏銳判斷修偏',
+        img: 'IPRC'
+      },
+      EMRC: {
+        name: '數據殺局者',
+        desc: '完全用統計和紀律操作',
+        img: 'EMRC'
+      },
+      IMRC: {
+        name: '機台解碼者',
+        desc: '擅解碼與演算法進出',
+        img: 'IMRC'
+      },
+      EPLC: {
+        name: '連爆之王',
+        desc: '追連爆節奏，風險極極高',
+        img: 'EPLC'
+      },
+      EPLR: {
+        name: '機率駭客',
+        desc: '算機率和赔率組合，偏重技術選點',
+        img: 'EPLR'
+      },
+      IMLR: {
+        name: '補分流氓',
+        desc: '靠觀盤心與風險控制找入點',
+        img: 'IMLR'
+      }
     };
 
-    const imageMap = {
-  'IMLC': 'images/IMLC2.jpg',
-  'IPRC': 'images/IPRC2.jpg',
-  'EMLC': 'images/EMLC2.jpg',
-  'EMRC': 'images/EMRC2.jpg',
-  'IMRC': 'images/IMRC2.jpg',
-  'EPLC': 'images/EPLC2.jpg',
-  'EPLR': 'images/EPLR2.jpg',
-  'IMLR': 'images/IMLR2.jpg'
-    };
+    document.getElementById('submitBtn').addEventListener('click', () => {
+      const scores = Array(20).fill(0);
+      const letters = ['I', 'E', 'M', 'P', 'L', 'R', 'C'];
+      const dimensions = [0, 0, 0, 0];
 
-    document.getElementById('submitBtn').addEventListener('click', function () {
-      const scores = new Array(20).fill(0);
       for (let i = 1; i <= 20; i++) {
-        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const selected = document.querySelector(`input[name=q${i}]:checked`);
         if (!selected) {
           alert(`第 ${i} 題尚未作答`);
           return;
         }
-        scores[i - 1] = parseInt(selected.value);
+        const value = parseInt(selected.value);
+        if (i % 5 === 1) dimensions[0] += value; // I vs E
+        if (i % 5 === 2) dimensions[1] += value; // M vs P
+        if (i % 5 === 3) dimensions[2] += value; // L vs R
+        if (i % 5 === 4) dimensions[3] += value; // C vs other
       }
 
+      const code =
+        (dimensions[0] <= 12 ? 'I' : 'E') +
+        (dimensions[1] <= 12 ? 'M' : 'P') +
+        (dimensions[2] <= 12 ? 'L' : 'R') +
+        (dimensions[3] <= 12 ? 'C' : 'R');
+
+      const result = resultMap[code];
       const resultBox = document.getElementById("result");
 
-const type = code;
-const personality = personalityNameMap[type] || "未知人格";
-const description = personalityDescMap[type] || "⚠️ 找不到對應的人格說明，請重新測試或聯繫我們。";
+      if (!result) {
+        resultBox.innerHTML = `<p style="color: red;">⚠️ 無法判定您的結果代碼，請確認是否每題皆已作答。</p>`;
+        return;
+      }
 
-resultBox.innerHTML = `
-  <div class="result-flex">
-    <div class="result-img">
-      <img src="images/${type}1.jpg" alt="${type}-1">
-      <img src="images/${type}2.jpg" alt="${type}-2" style="margin-top: 20px;">
-    </div>
-    <div class="result-text">
-      <h3 style="color: #00ffe1; font-size: 24px; margin-bottom: 10px;">你是「${personality}」</h3>
-      <p style="line-height: 1.8; font-size: 16px; color: #eee;">${description}</p>
-      <p style="margin-top: 20px;"><a href="https://reurl.cc/M3lAr4" target="_blank" style="color: #00ffe1;">點我立即體驗專屬AI預測系統 →</a></p>
-    </div>
-  </div>
-`;
+      resultBox.innerHTML = `
+        <div class="result-flex">
+          <div class="result-img">
+            <img src="images/${result.img}1.jpg" alt="${result.name}1">
+            <img src="images/${result.img}2.jpg" alt="${result.name}2" style="margin-top: 20px;">
+          </div>
+          <div class="result-text">
+            <h3 style="color: #00ffe1; font-size: 24px; margin-bottom: 10px;">你是「${result.name}」</h3>
+            <p style="line-height: 1.8; font-size: 16px; color: #eee;">${result.desc}</p>
+            <p style="margin-top: 20px;"><a href="https://reurl.cc/M3lAr4" target="_blank" style="color: #00ffe1;">點我立即體驗專屬AI預測系統 →</a></p>
+          </div>
+        </div>
+      `;
+    });
   </script>
 </body>
 </html>
