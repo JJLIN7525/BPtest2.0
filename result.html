@@ -73,12 +73,9 @@
 
   <script>
     const code = new URLSearchParams(window.location.search).get("code")?.toUpperCase() || "未知";
-    document.getElementById("code").textContent = code;
-
-    // 圖片來源設定
-    const base = "https://jjlin7525.github.io/BPtest2.0/images/";
-    document.getElementById("img_male").src = `${base}${code}_m.jpg`;
-    document.getElementById("img_female").src = `${base}${code}_f.jpg`;
+const base = "https://jjlin7525.github.io/BPtest2.0/images/";
+document.getElementById("img_male").src = `${base}${code}_m.jpg`;
+document.getElementById("img_female").src = `${base}${code}_f.jpg`;
 
     // 描述文字資料
     const descMap = {
