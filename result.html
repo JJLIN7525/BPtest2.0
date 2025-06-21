@@ -2,96 +2,92 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>博弈人格測驗結果</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>測驗結果</title>
   <style>
     body {
       background-color: #111;
-      color: #eee;
-      font-family: 'Noto Sans TC', sans-serif;
-      padding: 30px;
+      color: #fff;
+      font-family: 'Microsoft JhengHei', sans-serif;
+      margin: 0;
+      padding: 2rem;
       text-align: center;
     }
 
-    .result-container {
-      max-width: 1000px;
-      margin: 0 auto;
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #FFD700;
     }
 
-    .character-box {
+    .img-box {
       display: flex;
-      justify-content: center;
-      gap: 40px;
       flex-wrap: wrap;
-      margin-bottom: 30px;
+      justify-content: center;
+      margin-top: 2rem;
+      gap: 2rem;
     }
 
-    .character img {
+    .img-box img {
       max-width: 300px;
-      height: auto;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
     }
 
-    .result-text {
-      background-color: yellow;
-      color: black;
-      padding: 30px;
-      border-radius: 12px;
+    .desc-box {
+      background-color: #222;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      max-width: 720px;
+      border-left: 6px solid #FFD700;
       text-align: left;
       line-height: 1.8;
-      font-size: 16px;
     }
 
-    .result-text h2 {
-      font-size: 24px;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
-
-    .result-text p {
-      margin: 0;
+    .footer {
+      color: #999;
+      margin-top: 2rem;
+      font-size: 0.9rem;
     }
   </style>
 </head>
-
 <body>
-  <div class="result-container">
-    <div class="character-box">
-      <div class="character">
-        <img id="img_male" src="" alt="男性角色圖">
-      </div>
-      <div class="character">
-        <img id="img_female" src="" alt="女性角色圖">
-      </div>
-    </div>
 
-    <div class="result-text">
-      <h2>測驗結果：<span id="code">-</span></h2>
-      <p id="descBox">載入中...</p>
-    </div>
+  <h1>測驗結果代碼：<span id="code">讀取中...</span></h1>
+
+  <div class="img-box">
+    <img id="img_male" src="" alt="男性形象圖">
+    <img id="img_female" src="" alt="女性形象圖">
   </div>
 
-  <script>
-    const code = new URLSearchParams(window.location.search).get("code")?.toUpperCase() || "未知";
-const base = "https://jjlin7525.github.io/BPtest2.0/images/";
-document.getElementById("img_male").src = `${base}${code}_m.jpg`;
-document.getElementById("img_female").src = `${base}${code}_f.jpg`;
+  <div class="desc-box" id="descBox">載入中...</div>
 
-    // 描述文字資料
+  <div class="footer">© 2025 博弈人格測驗系統</div>
+
+  <script>
+    // 取得網址上的 code 參數
+    const code = new URLSearchParams(window.location.search).get("code")?.toUpperCase() || "未知";
+    document.getElementById("code").textContent = code;
+
+    // 設定圖片網址與說明文字
+    const base = "https://jjlin7525.github.io/BPtest2.0/images/";
+    document.getElementById("img_male").src = `${base}${code}_m.jpg`;
+    document.getElementById("img_female").src = `${base}${code}_f.jpg`;
+
     const descMap = {
-      IMLC: "你是「感應牌王」，仰賴直覺作戰，擅長察覺場面節奏與微妙變化，下注憑感覺、選局看氛圍，是天生的牌桌感應者。建議搭配簡單規則提升穩定性。",
-      EMLC: "你是「走勢裁決官」，用路線圖與趨勢脈絡做判斷，擅長反轉分析與冷靜推理。適合多局觀察與漸進式下法。",
-      IPRC: "你是「反指預言家」，擅長在反市場方向下注，具備強烈懷疑精神與對熱牌的抗拒力，善於逆流翻盤與反打博弈。",
-      EMRC: "你是「數據殺局者」，紀律型玩家，完全依賴統計與記錄下注。擅長控制風險與精準執行，是長期穩定盈利派。",
-      IMRC: "你是「機台解碼者」，專注破解電子輪迴與機率邏輯，具備強烈邏輯拆解與觀察力。",
-      EPLC: "你是「建爆之王」，偏愛連爆流打法，追強勢、壓爆炸、抓加速，適合高輸出高風險局面。",
-      EPLR: "你是「機率駭客」，強調演算法與機率策略組合，適合搭配模擬工具與自動策略判讀。",
-      IMLR: "你是「補分流氓」，擅長在逆風中強勢翻盤，偏好輸後加倍、補破口反打，具強烈對抗與心理承壓力。"
+      IMLC: "你是「感應牌王」，仰賴直覺作戰，擅長察覺場面節奏與微妙變化，是天生的牌桌感應者...",
+      EMLC: "你是「走勢裁決官」，善於分析長線趨勢，擅長從多局牌路中尋找模式與規律，下注節奏沉穩...",
+      IPRC: "你是「反指預言家」，擅長從群體錯誤中找到破綻，下注時常反向建構，擁有反市場的直覺與判斷力...",
+      EMRC: "你是「數據殺局者」，擅長統計與比對，經常在看似無序的亂局中找出高勝率操作路徑...",
+      IMRC: "你是「機台解碼者」，具備觀察力與記憶力，喜歡推敲演算法與出分邏輯，是破解系統的高手...",
+      EPLR: "你是「機率駭客」，深諳數學邏輯，精通風險管理，是高效又冷靜的精算型玩家...",
+      IMLR: "你是「補分流氓」，風格大膽，喜歡挑戰高報酬區間，操作方式往往突破常理，屬於反骨中的狠角色...",
+      EPLC: "你是「連爆之王」，掌握熱局爆發節奏，擅長在高氣勢場面中一舉連勝，是帶節奏的強勢莊家..."
     };
 
-    // 顯示對應人格說明
     document.getElementById("descBox").textContent =
-      descMap[code] || "找不到對應的人格描述，請重新測驗或聯繫管理員。";
+      descMap[code] || "⚠️ 找不到對應的人格說明，請重新測驗或聯繫我們。";
   </script>
+
 </body>
 </html>
