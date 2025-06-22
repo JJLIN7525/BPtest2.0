@@ -64,6 +64,7 @@
     async function fetchQuestions() {
       const res = await fetch("questions.js");
       const text = await res.text();
+      let questionsData = []; 
       eval(text); // 直接載入並執行 script 內容（questionsData 賦值）
       showQuestion();
     }
