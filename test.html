@@ -108,7 +108,7 @@
     </div>
     <div id="questions"></div>
 
-    <button type="button" id="submitBtn" onclick="showResult()">查看測驗結果</button>
+    <button id="submitBtn" onclick="showResult()" style="display: none;">送出結果</button>
     <div class="navigation">
       <button type="button" onclick="prevPage()">上一頁</button>
       <button type="button" onclick="nextPage()">下一頁</button>
@@ -122,8 +122,24 @@
 
   <script>
     let currentPage = 1;
-    const totalPages = 4;
-    const scores = { I: 0, M: 0, L: 0, R: 0, C: 0 };
+const scores = { I: 0, E: 0, P: 0, M: 0, L: 0, C: 0, R: 0, T: 0 };
+
+function recordAnswer(type) {
+  if (type in scores) {
+    scores[type]++;
+  }
+}
+
+function getDominantCode() {
+  // 取得每個類型的得分陣列
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+
+  // 取前四高
+  const code = sorted.slice(0, 4).map(entry => entry[0]).join('');
+
+  // 檢查是否為已定義人格組合，否則執行 fallback 分類
+  return classifyFallback(code);
+}
 
    const questions = [
   {
@@ -366,6 +382,23 @@ const personalityMap = {
   'IPRC': '感應牌王'
 };
 
+function calculateScores(answers) {
+  const scores = {};
+  for (const code of answers) {
+    if (!scores[code]) scores[code] = 0;
+    scores[code]++;
+  }
+  return scores;
+}
+
+function generateUserCode(scores) {
+  return Object.entries(scores)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 4)
+    .map(x => x[0])
+    .join('');
+}
+
 function matchToClosestPersonality(code) {
   for (const key in personalityMap) {
     if (code.slice(0, 3) === key.slice(0, 3)) return key;
@@ -385,10 +418,13 @@ function getFinalPersonalityCode(answers) {
   const rawCode = generateUserCode(scores);
   const matchedCode = matchToClosestPersonality(rawCode);
   return {
-    rawCode, matchedCode, personality: personalityMap[matchedCode] || '感應牌王'
+    rawCode,
+    matchedCode,
+    personality: personalityMap[matchedCode] || '感應牌王'
   };
 }
 
+// ✅ UI 顯示邏輯
 function renderQuestion() {
   const questionBox = document.getElementById('questionBox');
   const qData = questionsData[currentPage];
@@ -402,12 +438,12 @@ function renderQuestion() {
   `;
 
   document.getElementById('submitBtn').style.display = 
-    (currentPage === totalPages - 1) ? 'inline-block' : 'none';
+    (currentPage === questionsData.length - 1) ? 'inline-block' : 'none';
 }
 
 function selectAnswer(type) {
   userAnswers[currentPage] = type;
-  if (currentPage < totalPages - 1) {
+  if (currentPage < questionsData.length - 1) {
     currentPage++;
     renderQuestion();
   }
@@ -421,7 +457,7 @@ function prevPage() {
 }
 
 function nextPage() {
-  if (currentPage < totalPages - 1) {
+  if (currentPage < questionsData.length - 1) {
     currentPage++;
     renderQuestion();
   }
@@ -445,15 +481,10 @@ function showResult() {
       border-radius: 8px;
       font-weight: bold;
       text-decoration: none;
-      font-size: 16px;
-    ">➕ 加入官方 LINE</a>
+      font-size: 16px;">➕ 加入官方 LINE</a>
   `;
 }
-function showResult() {
-  const code = getDominantCode(scores);
-  const finalCode = classifyFallback(code);
-  document.getElementById("result").innerText = `你的人格代碼是：${finalCode}`
-    
+
 function copyResult(code, personality) {
   const text = `你的博弈人格代碼是 ${code}，對應類型是「${personality}」。`;
   navigator.clipboard.writeText(text).then(() => {
@@ -468,6 +499,5 @@ function shareResult(code, personality) {
   window.open(shareUrl, '_blank');
 }
 
-let currentPage = 0;
-const totalPages = questionsData.length;
+// ✅ 初始化
 renderQuestion();
