@@ -438,52 +438,110 @@ function getFinalPersonalityCode(answers) {
   };
 }
 
-// ✅ UI 顯示邏輯（每頁5題）
-function renderQuestion() {
-  const questionBox = document.getElementById('questions');
+<div id="questionBox"></div>
+
+<button id="prevBtn" onclick="prevPage()">上一頁</button>
+<button id="nextBtn" onclick="nextPage()">下一頁</button>
+<button id="submitBtn" onclick="showResult()" style="display: none;">提交</button>
+
+<div id="result"></div>
+
+<script>
+const questionsPerPage = 5;
+let currentPage = 0;
+let userAnswers = [];
+
+const questionsData = [
+  {
+    question: "你會如何規劃長期計畫？",
+    options: [
+      { text: "感覺一下現場氛圍，再決定怎麼行動", type: "I" },
+      { text: "觀察別人怎麼做，從中找出盲點", type: "E" },
+      { text: "找參考流程或規則，先建立操作框架", type: "P" },
+      { text: "先衝一波，邊做邊修正", type: "T" },
+      { text: "紀錄關鍵細節，方便後續分析", type: "C" }
+    ]
+  },
+  // 其他題目依序填入...
+];
+
+function renderQuestions() {
+  const questionBox = document.getElementById('questionBox');
   const start = currentPage * questionsPerPage;
   const end = start + questionsPerPage;
   const qDataSlice = questionsData.slice(start, end);
 
-  if (!qDataSlice.length) return;
+  questionBox.innerHTML = qDataSlice.map((q, idx) => {
+    const qIndex = start + idx;
+    const selected = userAnswers[qIndex];
+    return `
+      <div class="question-block">
+        <p>${qIndex + 1}. ${q.question}</p>
+        ${q.options.map(opt => `
+          <button class="answer-btn${selected === opt.type ? ' selected' : ''}" data-index="${qIndex}" data-type="${opt.type}">
+            ${opt.text}
+          </button>
+        `).join('')}
+      </div>
+    `;
+  }).join('<hr>');
 
-  questionBox.innerHTML = qDataSlice.map((q, idx) => `
-    <p>${start + idx + 1}. ${q.question}</p>
-    ${q.options.map(opt => `
-      <button onclick="selectAnswer(${start + idx}, '${opt.type}')">${opt.text}</button>
-    `).join('<br>')}
-  `).join('<hr>');
-
-  document.getElementById('submitBtn').style.display = 
+  document.getElementById('submitBtn').style.display =
     (end >= questionsData.length) ? 'inline-block' : 'none';
 }
+
+document.addEventListener('click', function (e) {
+  if (e.target.classList.contains('answer-btn')) {
+    const index = parseInt(e.target.dataset.index);
+    const type = e.target.dataset.type;
+    selectAnswer(index, type);
+  }
+});
+
 function selectAnswer(index, type) {
   userAnswers[index] = type;
-  console.log(`你選了第 ${index + 1} 題：${type}`);
+  renderQuestions();
+  console.log(`✔️ 你選了第 ${index + 1} 題：${type}`);
+}
 
+function validatePage() {
+  const start = currentPage * questionsPerPage;
+  for (let i = 0; i < questionsPerPage; i++) {
+    if (!userAnswers[start + i]) {
+      return false;
+    }
+  }
+  return true;
 }
 
 function nextPage() {
-  const startIndex = currentPage * questionsPerPage;
-  let allAnswered = true;
-
-  for (let i = 0; i < questionsPerPage; i++) {
-    const radios = document.getElementsByName(`q${startIndex + i}`);
-    if (![...radios].some(r => r.checked)) {
-      allAnswered = false;
-      break;
-    }
-  }
-
-  if (!allAnswered) {
-    alert("請先回答本頁所有題目，再繼續。");
+  if (!validatePage()) {
+    alert("請先完成本頁所有題目再繼續。❗");
     return;
   }
+  currentPage++;
+  renderQuestions();
+}
 
-  if ((currentPage + 1) * questionsPerPage <= questionsData.length) {
-    currentPage++;
-    renderPage();
+function prevPage() {
+  if (currentPage > 0) {
+    currentPage--;
+    renderQuestions();
   }
+}
+
+function getFinalPersonalityCode(answers) {
+  const scoreMap = {};
+  for (const ans of answers) {
+    scoreMap[ans] = (scoreMap[ans] || 0) + 1;
+  }
+  const sorted = Object.entries(scoreMap).sort((a, b) => b[1] - a[1]);
+  const topCode = sorted.slice(0, 4).map(entry => entry[0]).join('');
+  return {
+    matchedCode: topCode,
+    personality: '（博弈人格名稱待定）',
+    rawCode: answers.join(',')
+  };
 }
 
 function showResult() {
@@ -522,9 +580,27 @@ function shareResult(code, personality) {
   window.open(shareUrl, '_blank');
 }
 
-// ✅ 初始化
-renderQuestion();
-
+renderQuestions();
 </script>
+
+<style>
+.answer-btn {
+  display: block;
+  margin: 6px 0;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #f1c40f;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.answer-btn.selected {
+  background: #27ae60;
+  color: white;
+  transform: scale(1.02);
+}
+</style>
+
 </body>
 </html>
