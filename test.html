@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>博弈人格測驗</title>
+  <title>Bet型人格測驗｜你的博弈思維屬於哪一派？</title>
   <style>
     body {
       background-color: #111;
@@ -49,30 +49,31 @@
   </style>
 </head>
 <body>
-  <h1>博弈人格測驗</h1>
-
+  <h1>Bet型人格測驗｜你的博弈思維屬於哪一派？</h1>
+  <p style="color:#fff;">請依照直覺選擇最符合你的選項</p>
   <div class="question-box">
     <div id="question">載入中...</div>
     <div class="options" id="options"></div>
   </div>
 
   <script>
-    const questionsData = [...Array(20)]; // 預設為20題陣列占位
+    let questionsData = []; // 提前定義好變數讓 eval 能覆蓋它
     const scores = { I: 0, E: 0, P: 0, T: 0, C: 0, M: 0, L: 0, R: 0 };
     let currentIndex = 0;
 
     async function fetchQuestions() {
       const res = await fetch("questions.js");
       const text = await res.text();
-      let questionsData = []; 
-      eval(text); // 直接載入並執行 script 內容（questionsData 賦值）
+      eval(text); // 這會覆蓋掉上面空的 questionsData
       showQuestion();
     }
 
     function showQuestion() {
       const q = questionsData[currentIndex];
       document.getElementById("question").textContent = q.question;
-      const opts = q.options.map(opt => `<button onclick="select('${opt.type}')">${opt.text}</button>`).join('');
+      const opts = q.options.map(opt => 
+        `<button onclick="select('${opt.type}')">${opt.text}</button>`
+      ).join('');
       document.getElementById("options").innerHTML = opts;
     }
 
@@ -91,7 +92,7 @@
       }
     }
 
-    fetchQuestions();
+    fetchQuestions(); // 初始化
   </script>
 </body>
 </html>
