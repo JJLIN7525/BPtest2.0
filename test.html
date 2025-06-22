@@ -145,7 +145,8 @@ function recordAnswer(type) {
     scores[type]++;
   }
 }
-
+</script>
+    
 function getDominantCode() {
   // 取得每個類型的得分陣列
   const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
