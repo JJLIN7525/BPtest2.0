@@ -134,17 +134,6 @@
     </div>
     <div id="result"></div>
   </form>
-
-  <script>
-    let currentPage = 0;
-const questionsPerPage = 5;
-const userAnswers = [];
-function recordAnswer(type) {
-  if (type in scores) {
-    scores[type]++;
-  }
-}
-</script>
     
 function getDominantCode() {
   // 取得每個類型的得分陣列
