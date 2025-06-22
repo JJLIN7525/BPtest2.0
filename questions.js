@@ -1,4 +1,4 @@
-const questionsData = [
+questionsData = [
   {
     q: "q1",
     question: "你走進一個陌生環境時，第一件事會先？",
