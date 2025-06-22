@@ -57,42 +57,76 @@
   </div>
 
   <script>
-    let questionsData; // 提前定義好變數讓 eval 能覆蓋它
-    const scores = { I: 0, E: 0, P: 0, T: 0, C: 0, M: 0, L: 0, R: 0 };
-    let currentIndex = 0;
+  let questionsData;
+  const scores = { I: 0, E: 0, P: 0, T: 0, C: 0, M: 0, L: 0, R: 0 };
+  let currentIndex = 0;
 
-    async function fetchQuestions() {
-      const res = await fetch("questions.js");
-      const text = await res.text();
-      eval(text); // 這會覆蓋掉上面空的 questionsData
-      showQuestion();
-    }
+  const ResultMap = {
+    I: ['IMLC', 'IMRC', 'IMLR', 'IPRC'],
+    E: ['EPLC', 'EMRC', 'EPRC', 'EMLC'],
+    P: ['EPLC', 'IMLC', 'IPRC', 'EPRC'],
+    T: ['EPRC', 'IPRC', 'IMRC', 'EMRC'],
+    C: ['EMRC', 'IMRC', 'IMLR', 'EMLC'],
+    M: ['IMRC', 'EPLC', 'IMLR', 'EMLC'],
+    L: ['IMLC', 'EMLC', 'IPRC', 'EPRC'],
+    R: ['IMRC', 'IPRC', 'IMLR', 'EMRC']
+  };
 
-    function showQuestion() {
-      const q = questionsData[currentIndex];
-      document.getElementById("question").textContent = q.question;
-      const opts = q.options.map(opt => 
-        `<button onclick="select('${opt.type}')">${opt.text}</button>`
-      ).join('');
-      document.getElementById("options").innerHTML = opts;
-    }
+  function getPersonalityCode(scores) {
+    const typeScores = {
+      IMLC: 0, IMLR: 0, IMRC: 0, IPRC: 0,
+      EPLC: 0, EMLC: 0, EMRC: 0, EPRC: 0
+    };
 
-    function select(type) {
-      if (scores[type] !== undefined) scores[type]++;
-      currentIndex++;
-      if (currentIndex < questionsData.length) {
-        showQuestion();
-      } else {
-        const code = Object.entries(scores)
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 4)
-          .map(e => e[0])
-          .join('');
-        window.location.href = `result.html?code=${code}`;
+    for (let trait in scores) {
+      const top4Types = ResultMap[trait];
+      for (let i = 0; i < top4Types.length; i++) {
+        const type = top4Types[i];
+        const weight = 4 - i; // 第一名+4分，依序遞減
+        typeScores[type] += scores[trait] * weight;
       }
     }
 
-    fetchQuestions(); // 初始化
-  </script>
+    let maxType = null;
+    let maxScore = -1;
+    for (let type in typeScores) {
+      if (typeScores[type] > maxScore) {
+        maxScore = typeScores[type];
+        maxType = type;
+      }
+    }
+
+    return maxType;
+  }
+
+  async function fetchQuestions() {
+    const res = await fetch("questions.js");
+    const text = await res.text();
+    eval(text);
+    showQuestion();
+  }
+
+  function showQuestion() {
+    const q = questionsData[currentIndex];
+    document.getElementById("question").textContent = q.question;
+    const opts = q.options.map(opt =>
+      `<button onclick="select('${opt.type}')">${opt.text}</button>`
+    ).join('');
+    document.getElementById("options").innerHTML = opts;
+  }
+
+  function select(type) {
+    if (scores[type] !== undefined) scores[type]++;
+    currentIndex++;
+    if (currentIndex < questionsData.length) {
+      showQuestion();
+    } else {
+      const code = getPersonalityCode(scores);
+      window.location.href = `result.html?code=${code}`;
+    }
+  }
+
+  fetchQuestions();
+</script>
 </body>
 </html>
