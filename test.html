@@ -448,7 +448,7 @@ function renderQuestion() {
   if (!qDataSlice.length) return;
 
   questionBox.innerHTML = qDataSlice.map((q, idx) => `
-    <p>${start + idx + 1}. ${q.q}</p>
+    <p>${start + idx + 1}. ${q.question}</p>
     ${q.options.map(opt => `
       <button onclick="selectAnswer(${start + idx}, '${opt.type}')">${opt.text}</button>
     `).join('<br>')}
@@ -456,6 +456,9 @@ function renderQuestion() {
 
   document.getElementById('submitBtn').style.display = 
     (end >= questionsData.length) ? 'inline-block' : 'none';
+}
+function selectAnswer(index, type) {
+  userAnswers[index] = type;
 }
 
 function selectAnswer(index, type) {
