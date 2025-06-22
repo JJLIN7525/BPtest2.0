@@ -374,12 +374,90 @@ function matchToClosestPersonality(code) {
   return 'IMRC';
 }
 
+function getFinalPersonalityCode(answers) {
+  const scores = calculateScores(answers);
+  const rawCode = generateUserCode(scores);
+  const matchedCode = matchToClosestPersonality(rawCode);
+  return {
+    rawCode, matchedCode, personality: personalityMap[matchedCode] || '感應牌王'
+  };
+}
+
+function renderQuestion() {
+  const questionBox = document.getElementById('questionBox');
+  const qData = questionsData[currentPage];
+  if (!qData) return;
+
+  questionBox.innerHTML = `
+    <p>${currentPage + 1}. ${qData.q}</p>
+    ${qData.options.map((opt, idx) => `
+      <button onclick="selectAnswer('${opt.type}')">${opt.text}</button>
+    `).join('<br>')}
+  `;
+
+  document.getElementById('submitBtn').style.display = 
+    (currentPage === totalPages - 1) ? 'inline-block' : 'none';
+}
+
+function selectAnswer(type) {
+  userAnswers[currentPage] = type;
+  if (currentPage < totalPages - 1) {
+    currentPage++;
+    renderQuestion();
+  }
+}
+
+function prevPage() {
+  if (currentPage > 0) {
+    currentPage--;
+    renderQuestion();
+  }
+}
+
+function nextPage() {
+  if (currentPage < totalPages - 1) {
+    currentPage++;
+    renderQuestion();
+  }
+}
+
 function showResult() {
   const result = getFinalPersonalityCode(userAnswers);
-  const resultDiv = document.getElementById('result');
-  resultDiv.innerHTML = `
-    <h2>你的人格代碼是：${result.matchedCode}</h2>
-    <p>對應人格類型：<strong>${result.personality}</strong></p>
-    <p>原始代碼（未分類）：${result.rawCode}</p>
+  const resultBox = document.getElementById('result');
+  resultBox.innerHTML = `
+    <h2>你的人格代碼：${result.matchedCode}</h2>
+    <p>對應博弈人格：<strong>${result.personality}</strong></p>
+    <p>原始代碼（未分類前）：${result.rawCode}</p>
+    <button onclick="copyResult('${result.matchedCode}', '${result.personality}')">📋 複製結果</button>
+    <button onclick="shareResult('${result.matchedCode}', '${result.personality}')">🔗 分享測驗</button>
+    <a href="https://lin.ee/dkhMOWf" target="_blank" style="
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 18px;
+      background-color: #06c755;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 16px;
+    ">➕ 加入官方 LINE</a>
   `;
 }
+
+function copyResult(code, personality) {
+  const text = `你的博弈人格代碼是 ${code}，對應類型是「${personality}」。`;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('結果已複製到剪貼簿');
+  });
+}
+
+function shareResult(code, personality) {
+  const shareText = encodeURIComponent(`我的博弈人格代碼是 ${code}（${personality}）！快來測看看你是哪一型 →`);
+  const url = encodeURIComponent(window.location.href);
+  const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${shareText}`;
+  window.open(shareUrl, '_blank');
+}
+
+let currentPage = 0;
+const totalPages = questionsData.length;
+renderQuestion();
