@@ -338,15 +338,21 @@ function calculateScores(answers) {
       scoreMap[type]++;
     }
   });
-  return scoreMap;
+  function getDominantCode(scores) {
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  return sorted.slice(0, 4).map(entry => entry[0]).join("");
 }
 
-function generateUserCode(scoreMap) {
-  const sorted = Object.entries(scoreMap)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 4)
-    .map(entry => entry[0]);
-  return sorted.join('');
+function classifyFallback(code) {
+  const knownCodes = ["IEPM", "IMRC", "LRCT", "EMLT", "IPRT", "IMLT", "PLCT", "ERMC"];
+  const match = knownCodes.find(k => {
+    let matchCount = 0;
+    for (let i = 0; i < 4; i++) {
+      if (code.includes(k[i])) matchCount++;
+    }
+    return matchCount >= 3;
+  });
+  return match || "IMRC";
 }
 
 const personalityMap = {
@@ -443,7 +449,11 @@ function showResult() {
     ">➕ 加入官方 LINE</a>
   `;
 }
-
+function showResult() {
+  const code = getDominantCode(scores);
+  const finalCode = classifyFallback(code);
+  document.getElementById("result").innerText = `你的人格代碼是：${finalCode}`
+    
 function copyResult(code, personality) {
   const text = `你的博弈人格代碼是 ${code}，對應類型是「${personality}」。`;
   navigator.clipboard.writeText(text).then(() => {
