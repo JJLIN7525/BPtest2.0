@@ -67,6 +67,36 @@
       display: flex;
       gap: 10px;
     }
+
+    .result-layout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .result-images {
+      flex: 1 1 40%;
+    }
+
+    .result-images img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .result-description {
+      flex: 1 1 50%;
+    }
+
+    .line-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #00c300;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
   </style>
 </head>
 
@@ -156,14 +186,24 @@
     }
 
     function showResult() {
-      const code = (scores.I >= 0 ? 'I' : 'E') + (scores.M >= 0 ? 'M' : 'L') + (scores.C >= 0 ? 'C' : 'R');
+      const code = "IMR";
       const result = resultMap[code];
       if (!result) {
         document.getElementById("result").innerHTML = "<p style='color: red;'>找不到對應的人格類型，請確認你已完成所有題目。</p>";
         return;
       }
-      const images = result.img.map(src => `<img src='${src.trim()}' alt='${result.name}' style='max-width:100%; border-radius:8px; margin-bottom:10px;'>`).join('');
-      document.getElementById("result").innerHTML = `<h2>${result.name}</h2>${images}<p style="margin-top: 10px;">${result.desc}</p>`;
+      const imagesHtml = result.img.map(src => `<img src='${src}' alt='${result.name}'>`).join('');
+      const html = `
+        <h2>${result.name}</h2>
+        <div class="result-layout">
+          <div class="result-images">${imagesHtml}</div>
+          <div class="result-description">
+            <p>${result.desc}</p>
+            <a href="https://lin.ee/dkhMOWf" class="line-button" target="_blank">➤ 加我LINE，獲取分析建議</a>
+          </div>
+        </div>
+      `;
+      document.getElementById("result").innerHTML = html;
     }
 
     function nextPage() {
