@@ -431,18 +431,11 @@ function selectAnswer(index, type) {
   userAnswers[index] = type;
 }
 
-function prevPage() {
-  if (currentPage > 0) {
-    currentPage--;
-    renderQuestion();
-  }
-}
-
 function nextPage() {
-  const startIndex = (currentPage - 1) * 5;
+  const startIndex = currentPage * questionsPerPage;
   let allAnswered = true;
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < questionsPerPage; i++) {
     const radios = document.getElementsByName(`q${startIndex + i}`);
     if (![...radios].some(r => r.checked)) {
       allAnswered = false;
@@ -455,9 +448,9 @@ function nextPage() {
     return;
   }
 
-  if ((currentPage + 1) * 5 <= questionsData.length) {
+  if ((currentPage + 1) * questionsPerPage <= questionsData.length) {
     currentPage++;
-    renderPage();  // 如果你原本叫 renderQuestion()，這行也改成對的函數名
+    renderPage();
   }
 }
 
