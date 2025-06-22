@@ -121,9 +121,9 @@
   </form>
 
   <script>
-    let currentPage = 1;
-const scores = { I: 0, E: 0, P: 0, M: 0, L: 0, C: 0, R: 0, T: 0 };
-
+    let currentPage = 0;
+const questionsPerPage = 5;
+const userAnswers = [];
 function recordAnswer(type) {
   if (type in scores) {
     scores[type]++;
@@ -348,41 +348,6 @@ function getDominantCode() {
       let userAnswers = []; // 測驗完成後將使用者的選項對應類型推入這個陣列
 
 function calculateScores(answers) {
-  const scoreMap = { I: 0, E: 0, P: 0, M: 0, L: 0, C: 0, R: 0, T: 0 };
-  answers.forEach(type => {
-    if (scoreMap[type] !== undefined) {
-      scoreMap[type]++;
-    }
-  });
-  function getDominantCode(scores) {
-  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-  return sorted.slice(0, 4).map(entry => entry[0]).join("");
-}
-
-function classifyFallback(code) {
-  const knownCodes = ["IEPM", "IMRC", "LRCT", "EMLT", "IPRT", "IMLT", "PLCT", "ERMC"];
-  const match = knownCodes.find(k => {
-    let matchCount = 0;
-    for (let i = 0; i < 4; i++) {
-      if (code.includes(k[i])) matchCount++;
-    }
-    return matchCount >= 3;
-  });
-  return match || "IMRC";
-}
-
-const personalityMap = {
-  'EPRC': '補分流氓',
-  'EMLC': '機台解碼者',
-  'EPRT': '連爆之王',
-  'EPLC': '反指預言家',
-  'IMLT': '機率駭客',
-  'IMLC': '數據殺局者',
-  'IMRT': '走勢裁決官',
-  'IPRC': '感應牌王'
-};
-
-function calculateScores(answers) {
   const scores = {};
   for (const code of answers) {
     if (!scores[code]) scores[code] = 0;
@@ -410,7 +375,7 @@ function matchToClosestPersonality(code) {
   for (const key in personalityMap) {
     if (key.split('').some(c => code.includes(c))) return key;
   }
-  return 'IMRC';
+  return 'IPRC';
 }
 
 function getFinalPersonalityCode(answers) {
@@ -424,29 +389,28 @@ function getFinalPersonalityCode(answers) {
   };
 }
 
-// ✅ UI 顯示邏輯
+// ✅ UI 顯示邏輯（每頁5題）
 function renderQuestion() {
   const questionBox = document.getElementById('questionBox');
-  const qData = questionsData[currentPage];
-  if (!qData) return;
+  const start = currentPage * questionsPerPage;
+  const end = start + questionsPerPage;
+  const qDataSlice = questionsData.slice(start, end);
 
-  questionBox.innerHTML = `
-    <p>${currentPage + 1}. ${qData.q}</p>
-    ${qData.options.map((opt, idx) => `
-      <button onclick="selectAnswer('${opt.type}')">${opt.text}</button>
+  if (!qDataSlice.length) return;
+
+  questionBox.innerHTML = qDataSlice.map((q, idx) => `
+    <p>${start + idx + 1}. ${q.q}</p>
+    ${q.options.map(opt => `
+      <button onclick="selectAnswer(${start + idx}, '${opt.type}')">${opt.text}</button>
     `).join('<br>')}
-  `;
+  `).join('<hr>');
 
   document.getElementById('submitBtn').style.display = 
-    (currentPage === questionsData.length - 1) ? 'inline-block' : 'none';
+    (end >= questionsData.length) ? 'inline-block' : 'none';
 }
 
-function selectAnswer(type) {
-  userAnswers[currentPage] = type;
-  if (currentPage < questionsData.length - 1) {
-    currentPage++;
-    renderQuestion();
-  }
+function selectAnswer(index, type) {
+  userAnswers[index] = type;
 }
 
 function prevPage() {
@@ -457,7 +421,7 @@ function prevPage() {
 }
 
 function nextPage() {
-  if (currentPage < questionsData.length - 1) {
+  if ((currentPage + 1) * questionsPerPage < questionsData.length) {
     currentPage++;
     renderQuestion();
   }
