@@ -459,10 +459,8 @@ function renderQuestion() {
 }
 function selectAnswer(index, type) {
   userAnswers[index] = type;
-}
+  console.log(`你選了第 ${index + 1} 題：${type}`);
 
-function selectAnswer(index, type) {
-  userAnswers[index] = type;
 }
 
 function nextPage() {
