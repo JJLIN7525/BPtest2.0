@@ -127,6 +127,14 @@
 
   document.getElementById("description").textContent = descriptions[code] || "無法載入對應的人格說明。";
 
+// fallback：圖片載入失敗顯示預設圖
+document.getElementById("personality-image").onerror = function () {
+  this.src = "images/default1.jpg";
+};
+document.getElementById("secondary-image").onerror = function () {
+  this.src = "images/default2.jpg";
+};
+
   function shareResult() {
     const url = window.location.href;
     navigator.clipboard.writeText(url).then(() => {
