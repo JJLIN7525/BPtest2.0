@@ -439,9 +439,25 @@ function prevPage() {
 }
 
 function nextPage() {
-  if ((currentPage + 1) * questionsPerPage < questionsData.length) {
+  const startIndex = (currentPage - 1) * 5;
+  let allAnswered = true;
+
+  for (let i = 0; i < 5; i++) {
+    const radios = document.getElementsByName(`q${startIndex + i}`);
+    if (![...radios].some(r => r.checked)) {
+      allAnswered = false;
+      break;
+    }
+  }
+
+  if (!allAnswered) {
+    alert("請先回答本頁所有題目，再繼續。");
+    return;
+  }
+
+  if ((currentPage + 1) * 5 <= questionsData.length) {
     currentPage++;
-    renderQuestion();
+    renderPage();  // 如果你原本叫 renderQuestion()，這行也改成對的函數名
   }
 }
 
