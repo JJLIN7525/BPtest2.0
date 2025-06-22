@@ -161,9 +161,10 @@ function getDominantCode() {
   return classifyFallback(code);
 }
 
-   const questionsData = [
+const questionsData = [
   {
-    q: "你走進一個陌生環境時，第一件事會先？",
+    q: "q1",
+    question: "你走進一個陌生環境時，第一件事會先？",
     options: [
       { text: "感覺一下現場氛圍，再決定怎麼行動", type: "C" },
       { text: "觀察別人怎麼做，從中找出盲點", type: "P" },
@@ -173,7 +174,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "面對突發狀況時，你通常會？",
+    q: "q2",
+    question: "面對突發狀況時，你通常會？",
     options: [
       { text: "跟著感覺走，直覺告訴我該怎麼辦", type: "M" },
       { text: "觀察他人反應，再判斷自己的做法", type: "P" },
@@ -183,7 +185,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "你在面對一項全新任務時，會傾向？",
+    q: "q3",
+    question: "你在面對一項全新任務時，會傾向？",
     options: [
       { text: "靠經驗與直覺處理，先做再說", type: "C" },
       { text: "先看別人怎麼做，觀察找靈感", type: "P" },
@@ -193,7 +196,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "你在選擇工具或資源時，會偏好？",
+    q: "q4",
+    question: "你在選擇工具或資源時，會偏好？",
     options: [
       { text: "用順手、感覺對的就好", type: "C" },
       { text: "先看看別人都用什麼，有參考才安心", type: "P" },
@@ -203,7 +207,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "當你發現計畫不如預期時，你會？",
+    q: "q5",
+    question: "當你發現計畫不如預期時，你會？",
     options: [
       { text: "相信直覺轉向其他策略", type: "M" },
       { text: "看看別人是否也失敗，再調整方法", type: "P" },
@@ -213,7 +218,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "你在團隊中最常扮演的角色是？",
+    q: "q6",
+    question: "你在團隊中最常扮演的角色是？",
     options: [
       { text: "氣氛觀察員，掌握情緒起伏與風向", type: "C" },
       { text: "橋樑與轉譯者，協助團隊理解差異", type: "P" },
@@ -223,7 +229,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "在做選擇時你最害怕的是？",
+    q: "q7",
+    question: "在做選擇時你最害怕的是？",
     options: [
       { text: "選了感覺對但實際錯誤的選項", type: "C" },
       { text: "與群體判斷落差太大", type: "P" },
@@ -233,7 +240,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "你覺得自己最擅長的能力是？",
+    q: "q8",
+    question: "你覺得自己最擅長的能力是？",
     options: [
       { text: "直覺與當下判斷", type: "M" },
       { text: "觀察人性與環境互動", type: "P" },
@@ -243,7 +251,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "當你輸了一次，你會先？",
+    q: "q9",
+    question: "當你輸了一次，你會先？",
     options: [
       { text: "安靜下來反思整體流程", type: "C" },
       { text: "找朋友聊聊狀況與可能的盲點", type: "P" },
@@ -253,7 +262,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "你在接受新資訊時，最在意的是？",
+    q: "q10",
+    question: "你在接受新資訊時，最在意的是？",
     options: [
       { text: "是否引起內心的情感共鳴", type: "C" },
       { text: "這資訊是不是多數人都接受的", type: "P" },
@@ -263,7 +273,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "朋友向你尋求建議時，你傾向怎麼做？",
+    q: "q11",
+    question: "朋友向你尋求建議時，你傾向怎麼做？",
     options: [
       { text: "根據直覺提供建議", type: "M" },
       { text: "詢問更多背景，分析對方處境", type: "I" },
@@ -273,7 +284,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "遇到不熟的人，你通常會？",
+    q: "q12",
+    question: "遇到不熟的人，你通常會？",
     options: [
       { text: "先觀察對方風格與習性", type: "P" },
       { text: "快速破冰，進行試探性互動", type: "E" },
@@ -283,7 +295,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "你認為影響決策最關鍵的因素是？",
+    q: "q13",
+    question: "你認為影響決策最關鍵的因素是？",
     options: [
       { text: "情境當下的氛圍與感受", type: "C" },
       { text: "數據資料與過往經驗", type: "I" },
@@ -293,7 +306,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "你覺得怎樣的失敗最難承受？",
+    q: "q14",
+    question: "你覺得怎樣的失敗最難承受？",
     options: [
       { text: "直覺錯誤導致重大損失", type: "M" },
       { text: "資料都對但還是失敗", type: "I" },
@@ -303,7 +317,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "遇到需要立刻回應的緊急狀況，你？",
+    q: "q15",
+    question: "遇到需要立刻回應的緊急狀況，你？",
     options: [
       { text: "直覺式反應，靠本能行動", type: "M" },
       { text: "依照以往經驗套用類似處理模式", type: "I" },
@@ -313,7 +328,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "你會如何規劃長期計畫？",
+    q: "q16",
+    question: "你會如何規劃長期計畫？",
     options: [
       { text: "憑感覺抓大方向，邊走邊修正", type: "C" },
       { text: "列出清單與時間點，逐項執行", type: "L" },
@@ -323,7 +339,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "當他人否定你的想法時，你？",
+    q: "q17",
+    question: "當他人否定你的想法時，你？",
     options: [
       { text: "先看看他說的是否有邏輯", type: "T" },
       { text: "尊重但堅持自己感覺", type: "M" },
@@ -333,7 +350,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "別人會怎麼形容你的思考風格？",
+    q: "q18",
+    question: "別人會怎麼形容你的思考風格？",
     options: [
       { text: "跳脫框架，擅長找出奇異點", type: "M" },
       { text: "紮實穩定，數據導向分析型", type: "I" },
@@ -343,7 +361,8 @@ function getDominantCode() {
     ]
   },
   {
-    q: "你通常如何做出重要決定？",
+    q: "q19",
+    question: "你通常如何做出重要決定？",
     options: [
       { text: "根據當下感受與過往經驗", type: "C" },
       { text: "收集所有相關資訊再推斷", type: "I" },
@@ -351,8 +370,20 @@ function getDominantCode() {
       { text: "評估每個選項的邏輯鏈結", type: "T" },
       { text: "看有沒有實戰證據佐證決策", type: "E" }
     ]
+  },
+  {
+    q: "q20",
+    question: "當你完成一場複雜的任務後，你會？",
+    options: [
+      { text: "感受任務帶來的成就與感動", type: "C" },
+      { text: "復盤整體過程，建立經驗模板", type: "I" },
+      { text: "分享給群體，看看大家怎麼看待", type: "P" },
+      { text: "回頭挑戰更難的版本測試極限", type: "E" },
+      { text: "分析整體流程與效率，提出優化建議", type: "T" }
+    ]
   }
 ];
+
     const prefix = "/BPtest2.0/images/";
     const resultMap = {
       IPRC: { name: "感應牌王（IPRC）", img: ["/BPtest2.0/images/IMC1.jpg", "/BPtest2.0/images/IMC2.jpg"], desc: "你是「感應牌王」，仰賴直覺作戰，擅長察覺場面節奏與微妙變化，下注憑感覺、選局看氛圍，是天生的牌桌感應者。你不屬於公式玩家，反而擅長在混沌中尋找靈感。但若碰上冷盤、陷入連敗，過度憑感覺反而會讓你誤判。建議搭配簡單規則提升穩定性，善用工具進行感知驗證，將有助於勝率提升。你時常能在第一時間感受到牌局的節奏變化，像是身體本能地讀懂了場上的氛圍與脈絡。這讓你在瞬間決策上具備極大優勢，尤其在快節奏或龍短亂跳的局勢中，能迅速切入找出進攻空隙。不過你的弱點也來自於過度信任感覺，當連敗打擊信心、或盤路異常時，容易陷入自我懷疑與判斷混亂。感應型玩家適合搭配簡化版走勢紀錄，設定預警點來提醒自己是否進入「情緒下注模式」。此外，你在團體下注環境中容易受他人情緒影響，建議獨立作戰或使用模擬練習保持節奏穩定。在操作風格上，你會傾向採取階段式策略與實戰驗證，並在面對不確定因素時保持靈活調整，這讓你不只是依賴個人風格，更是一名會觀察全局、因應變化的博弈參與者。此類型玩家若能進一步結合大數據回測或團隊模擬實驗，將能在既有優勢上疊加更多勝率因子。根據目前測驗結果，這類型玩家約佔總人數的 21%。" },
