@@ -113,24 +113,25 @@
   }
 
   function showQuestion() {
-    const q = questionsData[currentIndex];
-    document.getElementById("question").textContent = q.question;
-    const opts = q.options.map(opt =>
-      `<button onclick="select('${opt.type}')">${opt.text}</button>`
-    ).join('');
-    document.getElementById("options").innerHTML = opts;
-  }
+  const q = questionsData[currentIndex];
+  document.getElementById("question").textContent = q.question;
+  const opts = q.options.map(opt =>
+    `<button onclick="select('${opt.code}')">${opt.text}</button>`
+  ).join('');
+  document.getElementById("options").innerHTML = opts;
+}
 
-  function select(type) {
-    if (scores[type] !== undefined) scores[type]++;
-    currentIndex++;
-    if (currentIndex < questionsData.length) {
-      showQuestion();
-    } else {
-      const code = getPersonalityCode(scores);
-      window.location.href = `result.html?code=${code}`;
-    }
+function select(code) {
+  if (scores[code] !== undefined) scores[code]++;
+  currentIndex++;
+  if (currentIndex < questionsData.length) {
+    showQuestion();
+  } else {
+    const resultCode = getPersonalityCode(scores);
+    window.location.href = `result.html?code=${resultCode}`;
   }
+}
+
 
   fetchQuestions();
 </script>
