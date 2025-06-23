@@ -49,7 +49,18 @@ function handleAnswerClick(code) {
   userAnswers.push(code);
   localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
   goToNextQuestion(); // 如果你已經有這個函式，這樣就能跳下一題
+  function goToNextQuestion() {
+  currentQuestionIndex++;
+  
+  if (currentQuestionIndex < totalQuestions) {
+    renderQuestion(currentQuestionIndex);
+  } else {
+    // ➤ 所有題目作答完畢，這裡才存答案並跳轉
+    localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
+    window.location.href = 'result.html';
+  }
 }
+  
 </script>
 </head>
 <body>
