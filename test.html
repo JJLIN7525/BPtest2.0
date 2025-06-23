@@ -88,13 +88,19 @@
     return maxType;
   }
 
-  async function fetchQuestions() {
-    const res = await fetch("questions.js");
-    const text = await res.text();
-    eval(text);
+  function fetchQuestions() {
+  const script = document.createElement('script');
+  script.src = 'questions.js';
+  script.onload = () => {
     console.log("✅ questionsData loaded", questionsData.length);
     showQuestion();
-  }
+  };
+  script.onerror = () => {
+    console.error("❌ 載入 questions.js 失敗");
+  };
+  document.body.appendChild(script);
+}
+
 
   function showQuestion() {
     const q = questionsData[currentIndex];
@@ -122,6 +128,7 @@
       const resultCode = getPersonalityCode(scores);
       console.log("✅ 最終人格代碼：", resultCode);
       console.log("✅ 使用者選項：", userAnswers);
+      console.log("🎯 啟動測驗 - 問題數量", questionsData?.length);
       window.location.href = `result.html?code=${resultCode}`;
     }
   }
