@@ -54,11 +54,15 @@ function handleAnswerClick(code) {
   
   if (currentQuestionIndex < totalQuestions) {
     renderQuestion(currentQuestionIndex);
-  } else {
-    // ➤ 所有題目作答完畢，這裡才存答案並跳轉
+} else {
+    // ✅ 所有題目作答完，這裡才寫入並跳轉
     localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
+
+    console.log("已寫入：", userAnswers);
+    
     window.location.href = 'result.html';
-  }
+}
+
 }
   
 </script>
