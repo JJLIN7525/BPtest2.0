@@ -250,48 +250,7 @@ function showResult() {
 }
     
  window.onload = showResult;
-    
-  // 統計各代碼分數
-  const codeCounts = {};
-  userAnswers.forEach(code => {
-    codeCounts[code] = (codeCounts[code] || 0) + 1;
-  });
-
-  // 轉為排序用的陣列
-  const sortedCodes = Object.entries(codeCounts)
-    .sort((a, b) => b[1] - a[1]) // 依得分高低排序
-    .map(entry => entry[0]); // 只取 code
-
-  // 前4個組合成 finalCode
-  const finalCode = sortedCodes.slice(0, 4).join('');
-    
-    
-
-  let matchedCode = finalCode;
-
-  if (!resultMap[finalCode]) {
-    // 沒對應，找最相近的
-    let bestMatch = null;
-    let maxOverlap = -1;
-    let maxScore = -1;
-
-    for (const code in resultMap) {
-      const overlap = [...code].filter(c => finalCode.includes(c)).length;
-      const scoreSum = [...code].reduce((sum, c) => sum + (codeCounts[c] || 0), 0);
-
-      if (
-        overlap > maxOverlap ||
-        (overlap === maxOverlap && scoreSum > maxScore)
-      ) {
-        bestMatch = code;
-        maxOverlap = overlap;
-        maxScore = scoreSum;
-      }
-    }
-
-    matchedCode = bestMatch;
-  }
-    
+        
     function shareResult() {
   const dummy = document.createElement('input');
   const shareURL = window.location.href;
