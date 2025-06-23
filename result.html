@@ -167,6 +167,44 @@
   border-radius: 10px;
 }
     }
+    .line-button {
+  display: flex;
+  justify-content: center;
+  margin: 2rem auto;
+}
+
+.line-button a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #00c300;
+  color: white;
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 0 20px #00c300;
+  animation: pulse 1.5s infinite;
+}
+
+.line-button a:hover {
+  transform: scale(1.05);
+}
+
+.line-button img {
+  width: 30px;
+  height: 30px;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 5px #00c300;
+  }
+  100% {
+    box-shadow: 0 0 25px #00c300;
+  }
+}
   </style>
 </head>
 <body>
@@ -181,10 +219,11 @@
 
 <div class="result-description" id="description">
   載入中...
-</div>
-    <div class="line-invite">
-  <img src="./images/line-icon.png" alt="LINE" class="line-icon">
-  🎮 只給懂得進場的人｜<a href="https://reurl.cc/M3lAr4" target="_blank">LINE入口</a>
+<div class="line-button">
+  <a href="https://reurl.cc/M3lAr4" target="_blank">
+    <img src="./images/line-icon.png" alt="LINE">
+    🎮 只給懂得進場的人｜LINE入口
+  </a>
 </div>
     <div class="buttons">
       <button onclick="shareResult()">分享</button>
