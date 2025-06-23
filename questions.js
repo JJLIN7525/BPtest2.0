@@ -1,4 +1,4 @@
-questionsData = [
+var questionsData = [
   {
     q: "q1",
     question: "朋友提議臨時改行程，你第一反應是？",
