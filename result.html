@@ -131,16 +131,7 @@
   object-fit: cover;
 }
 
-
 @media (max-width: 768px) {
-  ...
-  .result-images img {
-    width: 48%;
-    max-width: 140px;
-    flex-basis: 48%;
-  }
-}
-
   .buttons button,
   .buttons a {
     width: 70%;
@@ -148,8 +139,9 @@
   }
 
   .result-images img {
-    width: 45%;
+    width: 48%;
     max-width: 140px;
+    flex-basis: 48%;
   }
 }
 
@@ -267,10 +259,10 @@ const resultMap = {
   document.getElementById('personality-image').src = `images/${matchedCode}1.jpg`;
   document.getElementById('secondary-image').src = `images/${matchedCode}2.jpg`;
 }
-<script>
+    
     function saveResult() {
       window.print();
-      showResult();
+      
     }
   </script>
 </body>
