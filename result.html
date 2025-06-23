@@ -188,6 +188,9 @@
   <script>
 function showResult() {
   const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || [];
+  console.log('使用者作答：', userAnswers);  // ← 加這行
+  ...
+}
 
   // 統計各代碼分數
   const codeCounts = {};
