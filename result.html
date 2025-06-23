@@ -85,13 +85,26 @@
       color: #fff9d6;
     }
 
-    .buttons {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
+    .line-button {
+  display: block;
+  margin: 2rem auto;
+  max-width: 400px;
+  width: 60%;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  background-color: #00C300;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 0 10px #0c30080a;
+}
+.line-button:hover {
+  background-color: #00a800;
+  transform: scale(1.02);
+  transition: all 0.2s ease-in-out;
+}
+
 
     .buttons button, .buttons a {
       background-color: #FFD700;
@@ -159,7 +172,7 @@
   display: block;
   margin: 2rem auto;
   max-width: 400px;
-  width: 80%;
+  width: 60%;
   padding: 1rem 2rem;
   border-radius: 12px;
   font-size: 1.2rem;
@@ -312,8 +325,8 @@ document.getElementById("secondary-image").onerror = function () {
     </a>
   </div>
   <div class="buttons">
-    <button onclick="shareResult()">分享</button>
-    <button onclick="saveResult()">儲存</button>
+    <button onclick="shareResult()">分享測驗</button>
+    <button onclick="saveResult()">儲存結果</button>
     <button onclick="location.href='test.html'">重新測驗</button>
   </div>
 </div>
