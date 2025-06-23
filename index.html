@@ -44,10 +44,12 @@
     }
   </style>
   <script>
-    // 清空 localStorage 以確保每次重新開始都是空白一筆
+        // 清空 localStorage 以確保每次重新開始都是空白一筆
     window.onload = () => {
       localStorage.removeItem('userAnswers');
     };
+    console.log("🧪 測試：網頁已執行");
+    fetchQuestions(); // <== 必須呼叫！
   </script>
 </head>
 <body>
