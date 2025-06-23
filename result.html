@@ -259,15 +259,18 @@ const resultMap = {
   document.getElementById('secondary-image').src = `images/${matchedCode}2.jpg`;
 }
     
-    function saveResult() {
-  const resultBox = document.querySelector('.result-box');
-  html2canvas(resultBox).then(canvas => {
-    const link = document.createElement('a');
-    link.download = 'Bet人格測驗結果.png';
-    link.href = canvas.toDataURL();
-    link.click();
-  });
+    function shareResult() {
+  const dummy = document.createElement('input');
+  const shareURL = window.location.href;
+  document.body.appendChild(dummy);
+  dummy.value = shareURL;
+  dummy.select();
+  document.execCommand('copy');
+  document.body.removeChild(dummy);
+
+  alert("測驗連結已複製，快貼給朋友一起玩！");
 }
+
   </script>
 </body>
 </html>
