@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>【Bet型人格測驗】</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
   <style>
@@ -20,128 +20,104 @@
       padding: 100px 20px;
       text-align: center;
     }
-    h1 {
-      font-size: 2.5rem;
+    #question {
+      font-size: 1.5rem;
       margin-bottom: 20px;
-      color: #00ffe1;
     }
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 40px;
-    }
-    .start-btn {
+    #options button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
       background-color: #00ffe1;
       color: #000;
-      padding: 15px 40px;
-      font-size: 1.2rem;
-      border: none;
-      border-radius: 8px;
       cursor: pointer;
-      text-decoration: none;
     }
-    .start-btn:hover {
+    #options button:hover {
       background-color: #00cbb7;
     }
-  <script>
-  // 每次進入 test 頁先清除舊答案
-  localStorage.removeItem('userAnswers');
-
-  let questionsData;
-  const scores = { I: 0, E: 0, P: 0, T: 0, C: 0, M: 0, L: 0, R: 0 };
-  let currentIndex = 0;
-
-  const ResultMap = {
-    I: ['IMLC', 'IMRC', 'IMLR', 'IPRC'],
-    E: ['EPLC', 'EMRC', 'EPRC', 'EMLC'],
-    P: ['EPLC', 'IMLC', 'IPRC', 'EPRC'],
-    T: ['EPRC', 'IPRC', 'IMRC', 'EMRC'],
-    C: ['EMRC', 'IMRC', 'IMLR', 'EMLC'],
-    M: ['IMRC', 'EPLC', 'IMLR', 'EMLC'],
-    L: ['IMLC', 'EMLC', 'IPRC', 'EPRC'],
-    R: ['IMRC', 'IPRC', 'IMLR', 'EMRC']
-  };
-
-  function getPersonalityCode(scores) {
-    const typeScores = {
-      IMLC: 0, IMLR: 0, IMRC: 0, IPRC: 0,
-      EPLC: 0, EMLC: 0, EMRC: 0, EPRC: 0
-    };
-
-    for (let trait in scores) {
-      const top4Types = ResultMap[trait];
-      for (let i = 0; i < top4Types.length; i++) {
-        const type = top4Types[i];
-        const weight = 4 - i; // 第一名+4分，依序遞減
-        typeScores[type] += scores[trait] * weight;
-      }
-    }
-
-    let maxType = null;
-    let maxScore = -1;
-    for (let type in typeScores) {
-      if (typeScores[type] > maxScore) {
-        maxScore = typeScores[type];
-        maxType = type;
-      }
-    }
-
-    return maxType;
-  }
-
-  function fetchQuestions() {
-  const script = document.createElement('script');
-  script.src = 'questions.js';
-  script.onload = () => {
-    console.log("✅ questionsData loaded", questionsData.length);
-    showQuestion();
-  };
-  script.onerror = () => {
-    console.error("❌ 載入 questions.js 失敗");
-  };
-  document.body.appendChild(script);
-}
-
-
-  function showQuestion() {
-    const q = questionsData[currentIndex];
-    document.getElementById("question").textContent = q.question;
-    const opts = q.options.map(opt =>
-      `<button onclick="select('${opt.code}')">${opt.text}</button>`
-    ).join('');
-    document.getElementById("options").innerHTML = opts;
-  }
-
-  function select(code) {
-    // 累加分數
-    if (scores[code] !== undefined) scores[code]++;
-
-    // 寫入使用者答案到 localStorage
-    let userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || [];
-    userAnswers.push(code);
-    localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
-
-    // 跳下一題 or 結果頁
-    currentIndex++;
-    if (currentIndex < questionsData.length) {
-      showQuestion();
-    } else {
-      const resultCode = getPersonalityCode(scores);
-      console.log("✅ 最終人格代碼：", resultCode);
-      console.log("✅ 使用者選項：", userAnswers);
-      console.log("🎯 啟動測驗 - 問題數量", questionsData?.length);
-      window.location.href = `result.html?code=${resultCode}`;
-    }
-  }
-
-  fetchQuestions();
-</script>
-
+  </style>
 </head>
 <body>
   <div class="container">
-    <h1>【Bet型人格測驗】</h1>
-    <p>你的博弈思維，屬於哪一派？<br>👇 快來測測看 👇</p>
-    <a href="test.html" class="start-btn">開始測驗</a>
+    <div id="question">題目載入中...</div>
+    <div id="options"></div>
   </div>
+
+  <!-- 🧠 所有 JS 放最下面，這樣 DOM 都建好才執行 -->
+  <script>
+    // 每次進入 test 頁先清除舊答案
+    localStorage.removeItem('userAnswers');
+
+    const scores = { I: 0, E: 0, P: 0, T: 0, C: 0, M: 0, L: 0, R: 0 };
+    let currentIndex = 0;
+
+    const ResultMap = {
+      I: ['IMLC', 'IMRC', 'IMLR', 'IPRC'],
+      E: ['EPLC', 'EMRC', 'EPRC', 'EMLC'],
+      P: ['EPLC', 'IMLC', 'IPRC', 'EPRC'],
+      T: ['EPRC', 'IPRC', 'IMRC', 'EMRC'],
+      C: ['EMRC', 'IMRC', 'IMLR', 'EMLC'],
+      M: ['IMRC', 'EPLC', 'IMLR', 'EMLC'],
+      L: ['IMLC', 'EMLC', 'IPRC', 'EPRC'],
+      R: ['IMRC', 'IPRC', 'IMLR', 'EMRC']
+    };
+
+    function getPersonalityCode(scores) {
+      const typeScores = {
+        IMLC: 0, IMLR: 0, IMRC: 0, IPRC: 0,
+        EPLC: 0, EMLC: 0, EMRC: 0, EPRC: 0
+      };
+      for (let trait in scores) {
+        const top4 = ResultMap[trait];
+        top4.forEach((type, i) => {
+          typeScores[type] += scores[trait] * (4 - i);
+        });
+      }
+      return Object.entries(typeScores).reduce((max, cur) => cur[1] > max[1] ? cur : max)[0];
+    }
+
+    function showQuestion() {
+      const q = window.questionsData[currentIndex];
+      document.getElementById("question").textContent = q.question;
+      const opts = q.options.map(opt =>
+        `<button onclick="select('${opt.code}')">${opt.text}</button>`
+      ).join('');
+      document.getElementById("options").innerHTML = opts;
+    }
+
+    function select(code) {
+      if (scores[code] !== undefined) scores[code]++;
+      let userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || [];
+      userAnswers.push(code);
+      localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
+      currentIndex++;
+      if (currentIndex < window.questionsData.length) {
+        showQuestion();
+      } else {
+        const resultCode = getPersonalityCode(scores);
+        console.log("✅ 最終人格代碼：", resultCode);
+        window.location.href = `result.html?code=${resultCode}`;
+      }
+    }
+
+    function fetchQuestions() {
+      const script = document.createElement('script');
+      script.src = 'questions.js';
+      script.onload = () => {
+        console.log("✅ 問題載入完成", window.questionsData.length);
+        showQuestion();
+      };
+      script.onerror = () => {
+        console.error("❌ 載入問題失敗");
+      };
+      document.body.appendChild(script);
+    }
+
+    // 執行
+    fetchQuestions();
+  </script>
 </body>
 </html>
