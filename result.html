@@ -118,27 +118,47 @@
       transition: background 0.3s;
     }
 
-    .buttons button:hover, .buttons a:hover {
-      background-color: #e6c200;
-    }
-
-    @media (max-width: 600px) {
-  h1 {
-    font-size: 2rem;
-  }
-
-  h2 {
-    font-size: 1.6rem;
-  }
-
-  p {
-    font-size: 1.1rem;
-  }
-
-  .buttons {
+    .buttons {
+    display: flex;
     flex-direction: column;
     gap: 0.8rem;
-  }
+    max-width: 95%;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.buttons button {
+    width: 90%;
+    font-size: 1rem;
+    padding: 0.8rem;
+    margin: 0.3rem auto;
+}
+
+.buttons button:hover,
+.buttons a:hover {
+    background-color: #e6c200;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.6rem;
+    }
+
+    p {
+        font-size: 1.1rem;
+    }
+
+    .buttons button {
+        width: 80%;
+        font-size: 0.85rem;
+        padding: 0.6rem;
+    }
+}
+
 
   .result-images {
     flex-direction: column;
@@ -161,10 +181,6 @@
   margin: 0 auto;
   line-height: 1.8;
   font-size: 1rem;
-}
-.buttons {
-  max-width: 95%;
-  margin: 0 auto;
 }
 
 }
