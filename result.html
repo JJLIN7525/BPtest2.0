@@ -5,6 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>測驗結果</title>
   <style>
+    .line-invite {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 2rem auto;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #FFD700;
+  animation: glow 1.5s infinite alternate;
+}
+
+.line-invite a {
+  color: #FFD700;
+  text-decoration: underline;
+}
+
+.line-icon {
+  width: 30px;
+  height: 30px;
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px #FFD700;
+    transform: scale(1);
+  }
+  100% {
+    text-shadow: 0 0 20px #FFD700;
+    transform: scale(1.05);
+  }
+}
+
     body {
       margin: 0;
       padding: 0;
@@ -149,10 +182,13 @@
 <div class="result-description" id="description">
   載入中...
 </div>
+    <div class="line-invite">
+  <img src="./images/line-icon.png" alt="LINE" class="line-icon">
+  🎮 只給懂得進場的人｜<a href="https://reurl.cc/M3lAr4" target="_blank">LINE入口</a>
+</div>
     <div class="buttons">
       <button onclick="shareResult()">分享</button>
       <button onclick="saveResult()">儲存</button>
-      <a href="https://reurl.cc/M3lAr4" target="_blank">官方LINE</a>
       <button onclick="location.href='test.html'">重新測驗</button>
     </div>
   </div>
