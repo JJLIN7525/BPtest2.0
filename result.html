@@ -104,21 +104,7 @@
   transform: scale(1.02);
   transition: all 0.2s ease-in-out;
 }
-
-
-    .buttons button, .buttons a {
-      background-color: #FFD700;
-      color: #111;
-      padding: 0.8rem 1.5rem;
-      border: none;
-      border-radius: 30px;
-      font-size: 1rem;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.3s;
-    }
-
-    .buttons {
+.buttons {
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
@@ -127,10 +113,18 @@
     align-items: center;
 }
 
-.buttons button {
-    width: 90%;
+.buttons button,
+.buttons a {
+    background-color: #FFD700;
+    color: #111;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 10px;
     font-size: 1rem;
-    padding: 0.8rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s;
+    width: 90%;
     margin: 0.3rem auto;
 }
 
@@ -140,75 +134,13 @@
 }
 
 @media (max-width: 600px) {
-    h1 {
-        font-size: 2rem;
-    }
-
-    h2 {
-        font-size: 1.6rem;
-    }
-
-    p {
-        font-size: 1.1rem;
-    }
-
-    .buttons button {
+    .buttons button,
+    .buttons a {
         width: 80%;
         font-size: 0.85rem;
-        padding: 0.6rem;
+        padding: 0.6rem 1rem;
     }
 }
-
-  .result-images img {
-    width: 100%;
-    max-width: 320px;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    margin: 0 auto;
-    display: block;
-}
-
-      .line-button {
-  padding: 0.6rem 1rem;
-  font-size: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 0 6px #00c30080;
-}
-.result-description {
-  padding: 1.5rem 1.2rem;
-  max-width: 95%;
-  margin: 0 auto;
-  line-height: 1.8;
-  font-size: 1rem;
-}
-
-}
-  .line-button {
-  display: block;
-  margin: 2rem auto;
-  max-width: 400px;
-  width: 60%;
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  font-size: 1.2rem;
-  background-color: #00C300;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  box-shadow: 0 0 10px #00c30080;
-}
-
-
-  .buttons button {
-  width: 160px;
-  margin: 0.5rem 0.6rem;
-  font-size: 0.95rem;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
-}
-
   .result-description {
     padding: 1.2rem;
     font-size: 0.95rem;
