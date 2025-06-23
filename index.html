@@ -43,6 +43,14 @@
       background-color: #00cbb7;
     }
   </style>
+<script>
+function handleAnswerClick(code) {
+  let userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || [];
+  userAnswers.push(code);
+  localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
+  goToNextQuestion(); // 如果你已經有這個函式，這樣就能跳下一題
+}
+</script>
 </head>
 <body>
   <div class="container">
