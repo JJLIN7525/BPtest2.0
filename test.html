@@ -1,67 +1,51 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bet型人格測驗｜你的博弈思維屬於哪一派？</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【Bet型人格測驗】</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
   <style>
     body {
-      background-image: url('./images/4.jpg');
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-attachment: fixed;
-      background-size: cover;      
-     
+      font-family: 'Noto Sans TC', sans-serif;
+      background: url('./images/4.jpg') no-repeat center center fixed;
+      background-size: cover;
       color: #fff;
-      font-family: 'Microsoft JhengHei', sans-serif;
       margin: 0;
-      padding: 2rem;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 100px 20px;
       text-align: center;
     }
-
     h1 {
-      font-size: 2.2rem;
-      color: #FFD700;
-      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #00ffe1;
     }
-
-    .question-box {
-      max-width: 720px;
-      margin: 0 auto 2rem;
-      background: #222;
-      padding: 2rem;
-      border-radius: 10px;
-      border-left: 6px solid #FFD700;
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
     }
-
-    .options button {
-      display: block;
-      width: 100%;
-      margin: 1rem 0;
-      padding: 1rem;
-      font-size: 1rem;
-      background: #FFD700;
-      color: #111;
+    .start-btn {
+      background-color: #00ffe1;
+      color: #000;
+      padding: 15px 40px;
+      font-size: 1.2rem;
       border: none;
-      border-radius: 30px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      text-decoration: none;
     }
-
-    .options button:hover {
-      background: #e6c200;
+    .start-btn:hover {
+      background-color: #00cbb7;
     }
-  </style>
-</head>
-<body>
-  <h1>Bet型人格測驗｜你的博弈思維屬於哪一派？</h1>
-  <p style="color:#fff;">請依照直覺選擇最符合你的選項</p>
-  <div class="question-box">
-    <div id="question">載入中...</div>
-    <div class="options" id="options"></div>
-  </div>
-
   <script>
+  // 每次進入 test 頁先清除舊答案
+  localStorage.removeItem('userAnswers');
+
   let questionsData;
   const scores = { I: 0, E: 0, P: 0, T: 0, C: 0, M: 0, L: 0, R: 0 };
   let currentIndex = 0;
@@ -113,27 +97,44 @@
   }
 
   function showQuestion() {
-  const q = questionsData[currentIndex];
-  document.getElementById("question").textContent = q.question;
-  const opts = q.options.map(opt =>
-    `<button onclick="select('${opt.code}')">${opt.text}</button>`
-  ).join('');
-  document.getElementById("options").innerHTML = opts;
-}
-
-function select(code) {
-  if (scores[code] !== undefined) scores[code]++;
-  currentIndex++;
-  if (currentIndex < questionsData.length) {
-    showQuestion();
-  } else {
-    const resultCode = getPersonalityCode(scores);
-    window.location.href = `result.html?code=${resultCode}`;
+    const q = questionsData[currentIndex];
+    document.getElementById("question").textContent = q.question;
+    const opts = q.options.map(opt =>
+      `<button onclick="select('${opt.code}')">${opt.text}</button>`
+    ).join('');
+    document.getElementById("options").innerHTML = opts;
   }
-}
 
+  function select(code) {
+    // 累加分數
+    if (scores[code] !== undefined) scores[code]++;
+
+    // 寫入使用者答案到 localStorage
+    let userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || [];
+    userAnswers.push(code);
+    localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
+
+    // 跳下一題 or 結果頁
+    currentIndex++;
+    if (currentIndex < questionsData.length) {
+      showQuestion();
+    } else {
+      const resultCode = getPersonalityCode(scores);
+      console.log("✅ 最終人格代碼：", resultCode);
+      console.log("✅ 使用者選項：", userAnswers);
+      window.location.href = `result.html?code=${resultCode}`;
+    }
+  }
 
   fetchQuestions();
 </script>
+
+</head>
+<body>
+  <div class="container">
+    <h1>【Bet型人格測驗】</h1>
+    <p>你的博弈思維，屬於哪一派？<br>👇 快來測測看 👇</p>
+    <a href="test.html" class="start-btn">開始測驗</a>
+  </div>
 </body>
 </html>
