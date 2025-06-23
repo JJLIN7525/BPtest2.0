@@ -1,4 +1,4 @@
-var questionsData = [
+const questionsData = [
   {
     q: "q1",
     question: "朋友提議臨時改行程，你第一反應是？",
@@ -218,4 +218,6 @@ var questionsData = [
       { text: "回頭挑戰更難的版本測試極限", type: "E" },
       { text: "分析整體流程與效率，提出優化建議", type: "T" }
     ]
+  ];
+console.log("✅ questionsData loaded", questionsData.length);
   }
