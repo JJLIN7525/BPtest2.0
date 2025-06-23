@@ -188,8 +188,47 @@
   <script>
 function showResult() {
   const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || [];
-  console.log('使用者作答：', userAnswers);  // ← 加這行
-  ...
+
+  const codeCounts = {};
+  userAnswers.forEach(code => {
+    codeCounts[code] = (codeCounts[code] || 0) + 1;
+  });
+
+  const sortedCodes = Object.entries(codeCounts)
+    .sort((a, b) => b[1] - a[1])
+    .map(entry => entry[0]);
+
+  const finalCode = sortedCodes.slice(0, 4).join('');
+  let matchedCode = finalCode;
+
+  if (!resultMap[finalCode]) {
+    let bestMatch = null;
+    let maxOverlap = -1;
+    let maxScore = -1;
+
+    for (const code in resultMap) {
+      const overlap = [...code].filter(c => finalCode.includes(c)).length;
+      const scoreSum = [...code].reduce((sum, c) => sum + (codeCounts[c] || 0), 0);
+
+      if (
+        overlap > maxOverlap ||
+        (overlap === maxOverlap && scoreSum > maxScore)
+      ) {
+        bestMatch = code;
+        maxOverlap = overlap;
+        maxScore = scoreSum;
+      }
+    }
+
+    matchedCode = bestMatch;
+  }
+
+  const result = resultMap[matchedCode];
+  document.getElementById('resultTitle').textContent = result.title;
+  document.getElementById('resultDesc').textContent = result.desc;
+  document.getElementById('result-code').textContent = matchedCode;
+  document.getElementById('personality-image').src = `images/${matchedCode}1.jpg`;
+  document.getElementById('secondary-image').src = `images/${matchedCode}2.jpg`;
 }
 
   // 統計各代碼分數
@@ -251,14 +290,6 @@ const resultMap = {
 
     matchedCode = bestMatch;
   }
-
-  const result = resultMap[matchedCode];
-  document.getElementById('resultTitle').textContent = result.title;
-  document.getElementById('resultDesc').textContent = result.desc;
-  document.getElementById('result-code').textContent = matchedCode;
-  document.getElementById('personality-image').src = `images/${matchedCode}1.jpg`;
-  document.getElementById('secondary-image').src = `images/${matchedCode}2.jpg`;
-}
     
     function shareResult() {
   const dummy = document.createElement('input');
