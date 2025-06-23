@@ -210,6 +210,12 @@ const resultMap = {
 function showResult() {
   const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || [];
 
+  console.log("【Debug】userAnswers：", userAnswers);
+
+setTimeout(() => {
+  alert("你選的代碼：" + userAnswers.join(" / "));
+}, 500);
+  
   const codeCounts = {};
   userAnswers.forEach(code => {
     codeCounts[code] = (codeCounts[code] || 0) + 1;
@@ -221,7 +227,10 @@ function showResult() {
 
   const finalCode = sortedCodes.slice(0, 4).join('');
   let matchedCode = finalCode;
-
+  
+console.log("【Debug】排序後前四名代碼：", sortedCodes.slice(0, 4));
+console.log("【Debug】組成的finalCode：", finalCode);
+  
   if (!resultMap[finalCode]) {
     let bestMatch = null;
     let maxOverlap = -1;
