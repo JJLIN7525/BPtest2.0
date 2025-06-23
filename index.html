@@ -13,7 +13,7 @@
       color: #fff;
       margin: 0;
       padding: 0;
-}
+    }
     .container {
       max-width: 800px;
       margin: 0 auto;
@@ -43,34 +43,17 @@
       background-color: #00cbb7;
     }
   </style>
-<script>
-function handleAnswerClick(code) {
-  let userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || [];
-  userAnswers.push(code);
-  localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
-  goToNextQuestion(); // 如果你已經有這個函式，這樣就能跳下一題
-  function goToNextQuestion() {
-  currentQuestionIndex++;
-  
-  if (currentQuestionIndex < totalQuestions) {
-    renderQuestion(currentQuestionIndex);
-} else {
-    // ✅ 所有題目作答完，這裡才寫入並跳轉
-    localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
-
-    console.log("已寫入：", userAnswers);
-    
-    window.location.href = 'result.html';
-}
-
-}
-  
-</script>
+  <script>
+    // 清空 localStorage 以確保每次重新開始都是空白一筆
+    window.onload = () => {
+      localStorage.removeItem('userAnswers');
+    };
+  </script>
 </head>
 <body>
   <div class="container">
     <h1>【Bet型人格測驗】</h1>
-<p>你的博弈思維，屬於哪一派？<br>👇 快來測測看 👇</p>
+    <p>你的博弈思維，屬於哪一派？<br>👇 快來測測看 👇</p>
     <a href="test.html" class="start-btn">開始測驗</a>
   </div>
 </body>
