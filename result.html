@@ -231,10 +231,7 @@ function showResult() {
       const overlap = [...code].filter(c => finalCode.includes(c)).length;
       const scoreSum = [...code].reduce((sum, c) => sum + (codeCounts[c] || 0), 0);
 
-      if (
-        overlap > maxOverlap ||
-        (overlap === maxOverlap && scoreSum > maxScore)
-      ) {
+      if (overlap > maxOverlap ||(overlap === maxOverlap && scoreSum > maxScore)) {
         bestMatch = code;
         maxOverlap = overlap;
         maxScore = scoreSum;
@@ -251,7 +248,9 @@ function showResult() {
   document.getElementById('personality-image').src = `images/${matchedCode}1.jpg`;
   document.getElementById('secondary-image').src = `images/${matchedCode}2.jpg`;
 }
-
+    
+ window.onload = showResult;
+    
   // 統計各代碼分數
   const codeCounts = {};
   userAnswers.forEach(code => {
