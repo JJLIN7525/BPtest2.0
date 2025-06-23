@@ -118,8 +118,9 @@
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.8rem;
   margin-bottom: 2rem;
+  padding: 0 1rem;
 }
 
 .result-images img {
@@ -127,17 +128,18 @@
   max-width: 280px;
   height: auto;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   object-fit: cover;
 }
 
+
 @media (max-width: 768px) {
-  h1 {
-    font-size: 1.5rem;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-    text-align: center;
+  ...
+  .result-images img {
+    width: 48%;
+    max-width: 140px;
+    flex-basis: 48%;
   }
+}
 
   .buttons button,
   .buttons a {
@@ -165,17 +167,17 @@
 
   </style>
 </head>
-<body>
+  <body onload="showResult()">
   <div class="result-box">
     <h1>【Bet型人格測驗】</h1>
-    <h2>你的博弈思維屬於：<span id="result-code"></span></h2>
+    <h2>你的博弈思維屬於：<span id="resultTitle"></span>（<span id="result-code"></span>）</h2>
 
     <div class="result-images">
       <img id="personality-image" src="" alt="個性圖1">
       <img id="secondary-image" src="" alt="個性圖2">
     </div>
 
-    <div class="result-description" id="description">
+    <div class="result-description" id="resultDesc">
       載入中...
     </div>
 
@@ -195,11 +197,22 @@
   </div>
 
   <script>
-    const code = new URLSearchParams(window.location.search).get("code");
-    document.getElementById("result-code").textContent = code;
-    document.getElementById("personality-image").src = `images/${code}1.jpg`;
-    document.getElementById("secondary-image").src = `images/${code}2.jpg`;
+function showResult() {
+  const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || [];
 
+  // 統計各代碼分數
+  const codeCounts = {};
+  userAnswers.forEach(code => {
+    codeCounts[code] = (codeCounts[code] || 0) + 1;
+  });
+
+  // 轉為排序用的陣列
+  const sortedCodes = Object.entries(codeCounts)
+    .sort((a, b) => b[1] - a[1]) // 依得分高低排序
+    .map(entry => entry[0]); // 只取 code
+
+  // 前4個組合成 finalCode
+  const finalCode = sortedCodes.slice(0, 4).join('');
     const descriptions = {
       IMLC: "你是「感應牌王」，仰賴直覺作戰，擅長察覺場面節奏與微妙變化，下注憑感覺、選局看氛圍，是天生的牌桌感應者。你不屬於公式玩家，反而擅長在混沌中尋找靈感。但若碰上冷盤、陷入連敗，過度憑感覺反而會讓你誤判。建議搭配簡單規則提升穩定性，善用工具進行感知驗證，將有助於勝率提升。你時常能在第一時間感受到牌局的節奏變化，像是身體本能地讀懂了場上的氛圍與脈絡。這讓你在瞬間決策上具備極大優勢，尤其在快節奏或龍短亂跳的局勢中，能迅速切入找出進攻空隙。不過你的弱點也來自於過度信任感覺，當連敗打擊信心、或盤路異常時，容易陷入自我懷疑與判斷混亂。感應型玩家適合搭配簡化版走勢紀錄，設定預警點來提醒自己是否進入「情緒下注模式」。此外，你在團體下注環境中容易受他人情緒影響，建議獨立作戰或使用模擬練習保持節奏穩定。在操作風格上，你會傾向採取階段式策略與實戰驗證，並在面對不確定因素時保持靈活調整，這讓你不只是依賴個人風格，更是一名會觀察全局、因應變化的博弈參與者。此類型玩家若能進一步結合大數據回測或團隊模擬實驗，將能在既有優勢上疊加更多勝率因子。根據目前測驗結果，這類型玩家約佔總人數的 21%。",
       EMLC: "你是「走勢裁決官」，重視連莊與跳躍、靈感與數據交錯並重。你會觀察每局變化節奏、判斷最佳進退點，是擅長順勢操作的技巧型玩家。你信奉“見好就收”，也敢於重壓長龍，是屬於紀律與直覺兼備的穩健選手。建議進一步強化風控紀律，可避免連輸時的追壓誤區。你深信走勢即邏輯，是在亂中取勢、在動中找靜的高手。你的操作風格不躁進也不拖延，能根據龍的起伏與牌型切換做出動態調整，擁有近乎「實戰雷達」的直覺力。你擅長觀察連續莊閒與間斷跳局的結構，透過趨勢轉折時判斷時機果斷進場，是賭桌上少數能掌握風向與節奏的玩家。你對冷熱盤有相當敏銳度，但仍需避免情緒追壓。建議搭配簡易統計表或落地記錄系統，進一步建立屬於自己的風控界線與退場點，才能讓穩健與進攻取得完美平衡，成為真正的裁決官。在操作風格上，你會傾向採取階段式策略與實戰驗證，並在面對不確定因素時保持靈活調整，這讓你不只是依賴個人風格，更是一名會觀察全局、因應變化的博弈參與者。此類型玩家若能進一步結合大數據回測或團隊模擬實驗，將能在既有優勢上疊加更多勝率因子。無論是在高壓局勢中果斷出手，或是於盤整期中保持觀望，你都擁有與眾不同的節奏判斷能力。請記住：真正的高手，並不是一味追求勝場，而是懂得避開錯局、穩守每一次押注背後的風險控制。走勢裁決官常常是團隊中的核心決策者，你不只是下注者，更是節奏的調控者。根據目前測驗結果，這類型玩家約佔總人數的 13%。",
@@ -211,25 +224,53 @@
       EPLC: "你是「連爆之王」，擅長鎖定節奏與情緒高點，一波帶走對手。你喜歡熱局、喜歡連勝，講求場感與賭感融合，是天生的激情操盤手。你的優勢是出手果斷、反應敏銳，但也容易在敗勢時因不服輸而重壓。若能學會在爆發與冷靜間切換節奏，將成為極具威脅力的戰士。你是高爆發型選手，出手快狠準，專挑機會連壓猛攻，是牌桌上的戰士與推進者。每當場上出現你熟悉的節奏與牌感，你能毫不猶豫全力衝刺，形成一波強勢爆擊。然而你也容易在失利時進入「情緒硬壓」的狀態，將原本的節奏打亂。這樣的反應力與風格讓你在連勝時像股龍捲風，但若缺乏節制，也可能在一波連敗中爆倉。你適合在大局明朗、氣氛拉滿的時候強勢出擊，擔任進攻箭頭角色。建議你設定冷靜停損點與限次重壓策略，將爆發期與休息期做明確切換，讓你不只是爆發王，更是能控制火力的操盤手。在操作風格上，你會傾向採取階段式策略與實戰驗證，並在面對不確定因素時保持靈活調整，這讓你不只是依賴個人風格，更是一名會觀察全局、因應變化的博弈參與者。此類型玩家若能進一步結合大數據回測或團隊模擬實驗，將能在既有優勢上疊加更多勝率因子。無論是在高壓局勢中果斷出手，或是於盤整期中保持觀望，你都擁有與眾不同的節奏判斷能力。請記住：真正的高手，不只是熱血，也懂得保留後手、切換節奏。根據目前測驗結果，這類型玩家約佔總人數的 12%，屬於常見但極具爆發潛力的類型。"
     };
 
-    document.getElementById("description").textContent = descriptions[code] || "無法載入對應的人格說明。";
+const resultMap = {
+    'IMLC': { title: '感應牌王', desc: descriptions.IMLC },
+    'EMLC': { title: '走勢裁決官', desc: descriptions.EMLC },
+    'IPRC': { title: '反指預言家', desc: descriptions.IPRC },
+    'EMRC': { title: '數據殺局者', desc: descriptions.EMRC },
+    'IMRC': { title: '機會解碼者', desc: descriptions.IMRC },
+    'EPLR': { title: '機率駭客', desc: descriptions.EPLR },
+    'IMLR': { title: '補分流氓', desc: descriptions.IMLR },
+    'EPLC': { title: '連爆之王', desc: descriptions.EPLC }
+  };
 
-    // fallback 圖片載入失敗時使用預設圖
-    document.getElementById("personality-image").onerror = function () {
-      this.src = "images/default1.jpg";
-    };
-    document.getElementById("secondary-image").onerror = function () {
-      this.src = "images/default2.jpg";
-    };
+  let matchedCode = finalCode;
 
-    function shareResult() {
-      const url = window.location.href;
-      navigator.clipboard.writeText(url).then(() => {
-        alert("連結已複製，可貼給朋友分享結果！");
-      });
+  if (!resultMap[finalCode]) {
+    // 沒對應，找最相近的
+    let bestMatch = null;
+    let maxOverlap = -1;
+    let maxScore = -1;
+
+    for (const code in resultMap) {
+      const overlap = [...code].filter(c => finalCode.includes(c)).length;
+      const scoreSum = [...code].reduce((sum, c) => sum + (codeCounts[c] || 0), 0);
+
+      if (
+        overlap > maxOverlap ||
+        (overlap === maxOverlap && scoreSum > maxScore)
+      ) {
+        bestMatch = code;
+        maxOverlap = overlap;
+        maxScore = scoreSum;
+      }
     }
 
+    matchedCode = bestMatch;
+  }
+
+  const result = resultMap[matchedCode];
+  document.getElementById('resultTitle').textContent = result.title;
+  document.getElementById('resultDesc').textContent = result.desc;
+  document.getElementById('result-code').textContent = matchedCode;
+  document.getElementById('personality-image').src = `images/${matchedCode}1.jpg`;
+  document.getElementById('secondary-image').src = `images/${matchedCode}2.jpg`;
+}
+<script>
     function saveResult() {
       window.print();
+      showResult();
     }
   </script>
 </body>
