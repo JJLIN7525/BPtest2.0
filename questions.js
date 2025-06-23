@@ -1,6 +1,6 @@
 questions = [
   {
-    q: "q01",
+    q: "q1",
     question: "朋友提議臨時改行程，你第一反應是？",
     options: [
       { text: "覺得突然改很好玩，就跟了", code: "E" },
@@ -11,7 +11,7 @@ questions = [
     ]
   },
   {
-    q: "q02",
+    q: "q2",
     question: "你看到一款你關注已久的耳機，限時特價只剩最後5組，你會？",
     options: [
       { text: "馬上下單，這價格錯過太可惜", code: "E" },
@@ -22,7 +22,7 @@ questions = [
     ]
   },
   {
-    q: "q03",
+    q: "q3",
     question: "你在團隊會議上被臨時點名發表意見，你會？",
     options: [
       { text: "硬著頭皮講直覺感受，先撐場面", code: "M" },
@@ -33,7 +33,7 @@ questions = [
     ]
   },
   {
-    q: "q04",
+    q: "q4",
     question: "有人在群組裡發了一篇你不同意的文章，你會？",
     options: [
       { text: "直接留言反駁，不能放任錯誤擴散", code: "T" },
@@ -44,7 +44,7 @@ questions = [
     ]
   },
   {
-    q: "q05",
+    q: "q5",
     question: "你在面對一項全新任務時，會傾向？",
     options: [
       { text: "靠經驗與直覺處理，先做再說", code: "C" },
@@ -55,7 +55,7 @@ questions = [
     ]
   },
   {
-    q: "q06",
+    q: "q6",
     question: "你在選擇工具或資源時，會偏好？",
     options: [
       { text: "用順手、感覺對的就好", code: "C" },
@@ -66,7 +66,7 @@ questions = [
     ]
   },
   {
-    q: "q07",
+    q: "q7",
     question: "在做選擇時你最害怕的是？",
     options: [
       { text: "選了感覺對但實際錯誤的選項", code: "C" },
@@ -77,7 +77,7 @@ questions = [
     ]
   },
   {
-    q: "q08",
+    q: "q8",
     question: "你覺得自己最擅長的能力是？",
     options: [
       { text: "直覺與當下判斷", code: "M" },
@@ -88,7 +88,7 @@ questions = [
     ]
   },
   {
-    q: "q09",
+    q: "q9",
     question: "當你輸了一次，你會先？",
     options: [
       { text: "安靜下來反思整體流程", code: "C" },
