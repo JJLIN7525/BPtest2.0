@@ -182,7 +182,6 @@
       </div>
       <div class="buttons">
         <button onclick="shareResult()">分享測驗</button>
-        <button onclick="saveResult()">儲存結果</button>
         <button onclick="location.href='test.html'">重新測驗</button>
       </div>
     </div>
@@ -261,9 +260,14 @@ const resultMap = {
 }
     
     function saveResult() {
-      window.print();
-      showResult();
-    }
+  const resultBox = document.querySelector('.result-box');
+  html2canvas(resultBox).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'Bet人格測驗結果.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
   </script>
 </body>
 </html>
