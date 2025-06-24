@@ -211,10 +211,6 @@ function showResult() {
   const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || [];
 
   console.log("【Debug】userAnswers：", userAnswers);
-
-setTimeout(() => {
-  alert("你選的代碼：" + userAnswers.join(" / "));
-}, 500);
   
   const codeCounts = {};
   userAnswers.forEach(code => {
